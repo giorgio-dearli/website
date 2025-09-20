@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dearli - Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #e17055 0%, #fdcb6e 100%);
+            color: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 15%;
+            animation-delay: 6s;
+        }
+
+        .shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            right: 5%;
+            animation-delay: 1.5s;
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            top: 85%;
+            left: 8%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(6) {
+            width: 110px;
+            height: 110px;
+            top: 95%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .domain {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            padding-top: 120px;
+        }
+
+        .coming-soon-main {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s ease-in-out infinite;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-container {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .coming-soon {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .features-preview {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            opacity: 0.9;
+            text-align: left;
+        }
+
+        .hero-email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 2rem auto;
+            flex-wrap: wrap;
+        }
+
+        .hero-email-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-email-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .hero-email-input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .hero-submit-btn {
+            padding: 14px 30px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .hero-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .hero-success-message {
+            display: none;
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid rgba(39, 174, 96, 0.5);
+            color: #2ecc71;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .mockup-section {
+            margin: 8rem auto;
+            max-width: 1200px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .mockup-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .mockup-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .desktop-mockup {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .desktop-screen {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #2c3e50;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .mobile-mockup {
+            max-width: 280px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 1rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-screen {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 1rem;
+            color: #2c3e50;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .mockup-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e17055;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .family-member {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-status {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .connection-meter {
+            width: 60px;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #e9ecef;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .meter-green { background: #00b894; width: 85%; }
+        .meter-yellow { background: #fdcb6e; width: 60%; }
+        .meter-red { background: #e17055; width: 30%; }
+
+        .suggestion-card {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .suggestion-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .suggestion-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .mobile-member {
+            background: white;
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .mobile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .mobile-info {
+            flex: 1;
+        }
+
+        .mobile-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .mobile-status {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .mobile-meter {
+            width: 40px;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            background: #e9ecef;
+        }
+
+        .mobile-suggestion {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .mockup-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .mockup-section {
+                margin: 4rem auto;
+            }
+        }
+            margin: 6rem auto;
+            max-width: 1000px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .problems-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .problem-category {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+        }
+
+        .problem-category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .problem-list li:last-child {
+            border-bottom: none;
+        }
+
+        .problem-list li::before {
+            content: '•';
+            color: #ff6b6b;
+            margin-right: 0.5rem;
+        }
+
+        .testimonial-section {
+            margin: 4rem auto;
+            max-width: 800px;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            min-height: 200px;
+            z-index: 2;
+        }
+
+        .testimonial-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .testimonial-container {
+            position: relative;
+            min-height: 180px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-stars {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .email-section {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .email-icon {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+        }
+
+        .email-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .email-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .email-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            white-space: nowrap;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .email-disclaimer {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid rgba(39, 174, 96, 0.5);
+            color: #2ecc71;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .features-preview {
+                gap: 1rem;
+            }
+            
+            .feature {
+                padding: 0.8rem;
+            }
+            
+            .feature-text {
+                font-size: 0.9rem;
+            }
+            
+            .hero-email-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-email-input {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .hero-submit-btn {
+                width: 100%;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .email-section {
+                margin: 2rem 1rem;
+                padding: 2rem;
+            }
+            
+            .email-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .problems-section {
+            margin: 6rem auto;
+            max-width: 1000px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+                margin: 3rem 1rem;
+            }
+            
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .problems-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-logo">
+            <div class="logo-icon">❤️</div>
+            <span>dearli</span>
+        </div>
+        <div class="domain">dearli.so</div>
+    </header>
+
+    <main class="main-content">
+        <div class="coming-soon-main">
+            ⭐ Coming Soon - Early 2025 ⭐
+        </div>
+        
+        <div class="hero-container">
+            <h1 class="logo">dearli</h1>
+            <p class="tagline">Turning family connection into a joyful habit</p>
+            <p class="coming-soon">Coming Soon</p>
+            
+            <div class="features-preview">
+                <div class="feature">
+                    <div class="feature-icon">❤️</div>
+                    <div class="feature-text">Smart connection reminders that feel caring, not guilt-inducing</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📅</div>
+                    <div class="feature-text">Effortless activity planning that brings families together</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🏆</div>
+                    <div class="feature-text">Celebrate relationship milestones and build lasting habits</div>
+                </div>
+            </div>
+            
+            <form class="hero-email-form" id="emailForm">
+                <input 
+                    type="email" 
+                    class="hero-email-input" 
+                    placeholder="Enter your email address" 
+                    required
+                    id="emailInput"
+                >
+                <button type="submit" class="hero-submit-btn">Notify Me</button>
+            </form>
+            
+            <div class="hero-success-message" id="successMessage">
+                Thanks! We'll notify you when Dearli launches.
+            </div>
+        </div>
+    </main>
+
+    <section class="mockup-section">
+        <h2 class="mockup-title">Family connection that actually works</h2>
+        
+        <div class="mockup-container">
+            <div class="desktop-mockup">
+                <div class="desktop-screen">
+                    <div class="mockup-header">
+                        <div class="mockup-logo">
+                            ❤️ dearli
+                        </div>
+                        <div style="font-size: 0.8rem; opacity: 0.6;">Family Dashboard</div>
+                    </div>
+                    
+                    <div class="family-member">
+                        <div class="avatar">M</div>
+                        <div class="member-info">
+                            <div class="member-name">Mom</div>
+                            <div class="member-status">Last contact: 2 days ago</div>
+                        </div>
+                        <div class="connection-meter">
+                            <div class="meter-fill meter-yellow"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="family-member">
+                        <div class="avatar">D</div>
+                        <div class="member-info">
+                            <div class="member-name">Dad</div>
+                            <div class="member-status">Last contact: 5 days ago</div>
+                        </div>
+                        <div class="connection-meter">
+                            <div class="meter-fill meter-red"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="family-member">
+                        <div class="avatar">S</div>
+                        <div class="member-info">
+                            <div class="member-name">Sarah (Sister)</div>
+                            <div class="member-status">Last contact: Yesterday</div>
+                        </div>
+                        <div class="connection-meter">
+                            <div class="meter-fill meter-green"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-card">
+                        <div class="suggestion-title">💡 Smart Suggestion</div>
+                        <div class="suggestion-text">Dad's connection meter is low. How about scheduling a quick video call this weekend?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-mockup">
+                <div class="mobile-screen">
+                    <div class="mockup-header">
+                        <div class="mockup-logo">❤️ dearli</div>
+                        <div style="font-size: 0.7rem; opacity: 0.6;">This Week</div>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 0.8rem;">
+                            <div style="font-weight: 600; font-size: 0.9rem;">📅 Upcoming Activities</div>
+                            <div style="background: #00b894; color: white; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 10px;">3 planned</div>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 0.8rem; margin-bottom: 0.6rem; border-left: 3px solid #74b9ff;">
+                            <div style="font-weight: 600; font-size: 0.8rem; margin-bottom: 0.2rem;">Family Dinner</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Sunday 6:00 PM • Mom, Dad, Sarah</div>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 0.8rem; margin-bottom: 0.6rem; border-left: 3px solid #00b894;">
+                            <div style="font-weight: 600; font-size: 0.8rem; margin-bottom: 0.2rem;">Coffee with Mom</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Tuesday 2:00 PM • Just you two</div>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 0.8rem; border-left: 3px solid #fdcb6e;">
+                            <div style="font-weight: 600; font-size: 0.8rem; margin-bottom: 0.2rem;">Game Night</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Friday 7:30 PM • Whole family</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #00b894, #00cec9); color: white; border-radius: 12px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🏆</div>
+                        <div style="font-weight: 600; font-size: 0.8rem;">7-Day Streak!</div>
+                        <div style="font-size: 0.7rem; opacity: 0.9;">You've connected with family every day this week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problems-section">
+        <h2 class="problems-title" style="text-align: center; width: 100%; margin: 0 auto 3rem auto;">
+            ⚡ The coordination chaos ends here
+        </h2>
+        
+        <div style="display: flex; gap: 2rem; max-width: 1000px; margin: 0 auto; padding: 0 2rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 2rem; backdrop-filter: blur(15px);">
+                <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    ❤️ For Adult Children
+                </h3>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Siblings scattered across different cities</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• One person becomes the default family coordinator</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Medical appointments and care decisions in silos</li>
+                    <li style="padding: 0.75rem 0; font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Guilt about not spending enough time with aging parents</li>
+                </ul>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 2rem; backdrop-filter: blur(15px);">
+                <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    👥 For Friend Groups
+                </h3>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• "Let's hang out in December" syndrome</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Endless group text coordination</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Someone always becomes the social director</li>
+                    <li style="padding: 0.75rem 0; font-size: 1rem; line-height: 1.4; opacity: 0.9;">• Impromptu events missing key people</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial-section">
+        <h2 class="testimonial-title">
+            ⭐ People are already excited about dearli ⭐
+        </h2>
+        
+        <div class="testimonial-container">
+            <div class="testimonial-card active" id="testimonial-1">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-quote">
+                    "Our friend group chat is chaos. We need something that actually helps us stay connected."
+                </p>
+                <p class="testimonial-author">Mike, 35 • Friend group coordinator</p>
+            </div>
+            
+            <div class="testimonial-card" id="testimonial-2">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-quote">
+                    "Coordinating care for mom across three siblings in different states is exhausting. This could be a game-changer."
+                </p>
+                <p class="testimonial-author">Sarah, 42 • Eldest sibling</p>
+            </div>
+            
+            <div class="testimonial-card" id="testimonial-3">
+                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-quote">
+                    "I feel guilty that I don't visit my parents enough, but scheduling around everyone is impossible."
+                </p>
+                <p class="testimonial-author">David, 38 • Busy professional</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="email-section">
+        <div class="email-icon">✉️</div>
+        <h2 class="email-title">Be the first to know when we launch</h2>
+        <p class="email-subtitle">
+            Join thousands of adult children and friend groups who are ready for better coordination.
+        </p>
+        
+        <form class="email-form" id="emailForm2">
+            <input 
+                type="email" 
+                class="email-input" 
+                placeholder="Enter your email address" 
+                required
+                id="emailInput2"
+            >
+            <button type="submit" class="submit-btn">Get Early Access →</button>
+        </form>
+        
+        <div class="success-message" id="successMessage2">
+            Thanks! We'll notify you when Dearli launches.
+        </div>
+        
+        <p class="email-disclaimer">
+            No spam, ever. Just updates on our launch and early access opportunities.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">
+            <div class="logo-icon">❤️</div>
+            <span>dearli</span>
+        </div>
+        <p class="footer-tagline">
+            Building technology that strengthens relationships, not just schedules.
+        </p>
+    </footer>
+
+    <script>
+        // Email form handling for hero section
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const successMessage = document.getElementById('successMessage');
+            const form = document.getElementById('emailForm');
+            
+            if (email && email.includes('@')) {
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                console.log('Email submitted:', email);
+                
+                let emails = JSON.parse(localStorage.getItem('dearli-emails') || '[]');
+                emails.push(email);
+                localStorage.setItem('dearli-emails', JSON.stringify(emails));
+            }
+        });
+
+        // Email form handling for main email section
+        document.getElementById('emailForm2').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput2').value;
+            const successMessage = document.getElementById('successMessage2');
+            const form = document.getElementById('emailForm2');
+            
+            if (email && email.includes('@')) {
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                console.log('Email submitted:', email);
+                
+                let emails = JSON.parse(localStorage.getItem('dearli-emails') || '[]');
+                emails.push(email);
+                localStorage.setItem('dearli-emails', JSON.stringify(emails));
+            }
+        });
+
+        // Cycling testimonials
+        const testimonials = ['testimonial-1', 'testimonial-2', 'testimonial-3'];
+        let currentTestimonial = 0;
+
+        function showNextTestimonial() {
+            // Hide current testimonial
+            document.getElementById(testimonials[currentTestimonial]).classList.remove('active');
+            
+            // Move to next testimonial
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            
+            // Show next testimonial after a brief delay
+            setTimeout(() => {
+                document.getElementById(testimonials[currentTestimonial]).classList.add('active');
+            }, 300);
+        }
+
+        // Start testimonial cycling
+        setInterval(showNextTestimonial, 4000);
+    </script>
+</body>
+</html>
