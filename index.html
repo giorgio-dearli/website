@@ -1118,44 +1118,100 @@
     </footer>
 
     <script>
-        // Email form handling for hero section
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('emailInput').value;
-            const successMessage = document.getElementById('successMessage');
-            const form = document.getElementById('emailForm');
-            
-            if (email && email.includes('@')) {
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
-                
-                console.log('Email submitted:', email);
-                
-                let emails = JSON.parse(localStorage.getItem('dearli-emails') || '[]');
-                emails.push(email);
-                localStorage.setItem('dearli-emails', JSON.stringify(emails));
-            }
-        });
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://lohjttimsydbvntzlrmp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvaGp0dGltc3lkYnZudHpscm1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNTg3MzMsImV4cCI6MjA3MjgzNDczM30.xILlNj8eNYqmNoamLub3xNrawaaItaOkSDSFDBcL2so';
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Email form handling for main email section
-        document.getElementById('emailForm2').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('emailInput2').value;
-            const successMessage = document.getElementById('successMessage2');
-            const form = document.getElementById('emailForm2');
-            
-            if (email && email.includes('@')) {
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
+        // Email form handling for hero section
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('emailForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                console.log('Email submitted:', email);
+                const email = document.getElementById('emailInput').value;
+                const successMessage = document.getElementById('successMessage');
+                const form = document.getElementById('emailForm');
+                const submitBtn = form.querySelector('button');
                 
-                let emails = JSON.parse(localStorage.getItem('dearli-emails') || '[]');
-                emails.push(email);
-                localStorage.setItem('dearli-emails', JSON.stringify(emails));
-            }
+                if (email && email.includes('@')) {
+                    // Disable button and show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting...';
+                    
+                    try {
+                        // Insert email into Supabase
+                        const { data, error } = await supabaseClient
+                            .from('email_signups')
+                            .insert([
+                                { email: email, source: 'hero_section' }
+                            ]);
+                        
+                        if (error) {
+                            if (error.code === '23505') {
+                                // Duplicate email
+                                successMessage.textContent = "You're already on the list!";
+                            } else {
+                                throw error;
+                            }
+                        }
+                        
+                        // Show success message
+                        form.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        
+                    } catch (error) {
+                        console.error('Supabase Error:', error);
+                        alert('Something went wrong. Please try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Notify Me';
+                    }
+                }
+            });
+
+            // Email form handling for main email section
+            document.getElementById('emailForm2').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('emailInput2').value;
+                const successMessage = document.getElementById('successMessage2');
+                const form = document.getElementById('emailForm2');
+                const submitBtn = form.querySelector('button');
+                
+                if (email && email.includes('@')) {
+                    // Disable button and show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting...';
+                    
+                    try {
+                        // Insert email into Supabase
+                        const { data, error } = await supabaseClient
+                            .from('email_signups')
+                            .insert([
+                                { email: email, source: 'email_section' }
+                            ]);
+                        
+                        if (error) {
+                            if (error.code === '23505') {
+                                // Duplicate email
+                                successMessage.textContent = "You're already on the list!";
+                            } else {
+                                throw error;
+                            }
+                        }
+                        
+                        // Show success message
+                        form.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        
+                    } catch (error) {
+                        console.error('Supabase Error:', error);
+                        alert('Something went wrong. Please try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Get Early Access →';
+                    }
+                }
+            });
         });
 
         // Cycling testimonials
