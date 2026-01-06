@@ -17,10 +17,7 @@
             font-style: normal;
             font-display: swap;
         }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -388,7 +385,6 @@
             opacity: 0.9;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -548,89 +544,6 @@
             margin-bottom: 30px;
         }
 
-        .email-form {
-            display: flex;
-            gap: 12px;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        .email-input-wrapper {
-            flex: 1;
-            position: relative;
-        }
-
-        .email-label {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 17px;
-            color: rgba(39, 39, 39, 0.5);
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .email-input:focus + .email-label,
-        .email-input:not(:placeholder-shown) + .email-label {
-            top: -10px;
-            font-size: 12px;
-            color: #E44C3F;
-            background: white;
-            padding: 0 6px;
-        }
-
-        .email-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 1px solid rgba(39, 39, 39, 0.15);
-            border-radius: 12px;
-            font-size: 17px;
-            background: white;
-            color: #272727;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .email-input::placeholder {
-            color: transparent;
-        }
-
-        .email-input:focus {
-            border-color: #E44C3F;
-            box-shadow: 0 0 0 4px rgba(228, 76, 63, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .email-submit {
-            background: #272727;
-            color: white;
-            padding: 15px 32px;
-            border: none;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .email-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(39, 39, 39, 0.2);
-        }
-
-        .success-message {
-            display: none;
-            background: rgba(39, 174, 96, 0.1);
-            border: 1px solid rgba(39, 174, 96, 0.3);
-            color: #27ae60;
-            padding: 16px 24px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 17px;
-        }
-
         .contact-section {
             background: linear-gradient(to bottom, #f9f0ed 0%, #f5e8e3 100%);
             padding: 100px 20px 120px;
@@ -740,14 +653,6 @@
 
             .feature-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .email-form {
-                flex-direction: column;
-            }
-
-            .email-submit {
-                width: 100%;
             }
         }
 
@@ -956,23 +861,15 @@
             <h2 class="section-headline">relationships that enrich<br>your life.</h2>
             <p class="section-subheadline">join the waitlist for early access to coordination that makes connection effortless.</p>
             
-            <form class="email-form" id="emailForm">
-                <div class="email-input-wrapper">
-                    <input 
-                        type="email" 
-                        class="email-input" 
-                        placeholder="your email" 
-                        required
-                        id="emailInput"
-                    >
-                    <label class="email-label" for="emailInput">your email</label>
-                </div>
-                <button type="submit" class="email-submit">get early access</button>
-            </form>
-            
-            <div class="success-message" id="successMessage">
-                you're on the list. we'll email you when we launch.
-            </div>
+            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+            <iframe 
+                src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb" 
+                class="beehiiv-embed" 
+                data-test-id="beehiiv-embed" 
+                frameborder="0" 
+                scrolling="no" 
+                style="width: 100%; max-width: 480px; height: 280px; margin: 0 auto; border-radius: 0px; background-color: transparent;"
+            ></iframe>
         </div>
     </section>
 
@@ -1001,10 +898,6 @@
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://lohjttimsydbvntzlrmp.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvaGp0dGltc3lkYnZudHpscm1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNTg3MzMsImV4cCI6MjA3MjgzNDczM30.xILlNj8eNYqmNoamLub3xNrawaaItaOkSDSFDBcL2so';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         function openModal(id) {
             document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1014,46 +907,6 @@
             document.getElementById(id).classList.remove('active');
             document.body.style.overflow = '';
         }
-
-        document.getElementById('emailForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('emailInput').value;
-            const successMessage = document.getElementById('successMessage');
-            const form = document.getElementById('emailForm');
-            const submitBtn = form.querySelector('button');
-            
-            if (email && email.includes('@')) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'joining...';
-                
-                try {
-                    const { data, error } = await supabaseClient
-                        .from('email_signups')
-                        .insert([{ email: email, source: 'waitlist' }]);
-                    
-                    if (error && error.code !== '23505') {
-                        throw error;
-                    }
-                    
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#E44C3F', '#ED6549', '#EF8A57', '#FFB199']
-                    });
-                    
-                    form.style.display = 'none';
-                    successMessage.style.display = 'block';
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('something went wrong. please try again.');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'get early access';
-                }
-            }
-        });
     </script>
 </body>
 </html>
