@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dearli - see your favorite people more</title>
-    <meta name="description" content="an app for seeing your favorite people more. launching Q1 2026.">
+    <title>dearli — your personal relationship manager</title>
+    <meta name="description" content="dearli is an AI-powered relationship manager that helps you see your favorite people more. Track your social health, coordinate effortlessly, and never let the people you love drift away.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Giaza Stencil';
-            src: url('https://assets.codepen.io/9051928/GiazaStencil-Regular.woff2') format('woff2'),
-                 url('https://fonts.cdnfonts.com/s/96796/GiazaStencil-Regular.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
+        :root {
+            --coral-deep: #D94F2B;
+            --coral: #E8673D;
+            --peach: #F0A672;
+            --cream: #FFF5ED;
+            --cream-light: #FFFAF6;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2D2D2D;
+            --text-muted: #6B5C52;
+            --text-warm: #8B6E5D;
         }
 
         * {
@@ -24,893 +27,1301 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-            background: #fff;
-            color: #272727;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        html {
             scroll-behavior: smooth;
-            overflow-x: hidden;
-            padding-top: 130px;
+            font-size: 16px;
         }
 
-        .header {
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--charcoal);
+            background: var(--cream-light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== NAV ========== */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 130px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(39, 39, 39, 0.08);
-            z-index: 99999;
+            z-index: 100;
+            padding: 1.25rem 2.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 max(22px, env(safe-area-inset-left));
+            transition: all 0.4s ease;
         }
 
-        .header-logo-left {
-            height: 120px;
-            z-index: 2;
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
+        nav.scrolled {
+            background: rgba(255, 250, 246, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(217, 79, 43, 0.08);
+            padding: 0.9rem 2.5rem;
         }
 
-        .header-logo-left:hover {
-            transform: rotate(5deg) scale(1.05);
+        .nav-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
-        .header-logo-left img {
-            height: 100%;
-            width: auto;
-            display: block;
+        .nav-logo span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--coral);
+            border-radius: 50%;
+            margin-left: 1px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
         }
 
-        .header-cta {
-            background: #272727;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 24px;
-            font-size: 15px;
+        .nav-cta {
+            font-size: 0.85rem;
             font-weight: 500;
+            color: var(--cream);
+            background: var(--charcoal);
+            border: none;
+            padding: 0.65rem 1.5rem;
+            border-radius: 100px;
+            cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            height: fit-content;
+            letter-spacing: 0.01em;
         }
 
-        .header-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 39, 39, 0.2);
+        .nav-cta:hover {
+            background: var(--coral-deep);
+            transform: translateY(-1px);
         }
 
-        .hero-section {
+        /* ========== HERO ========== */
+        .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 60px 20px 80px;
-            background: linear-gradient(135deg, #E44C3F 0%, #ED6549 40%, #EF8A57 100%);
+            padding: 8rem 2rem 6rem;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-section::before {
+        .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotateGradient 20s linear infinite;
+            top: -30%;
+            right: -20%;
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(240, 166, 114, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        @keyframes rotateGradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hero-logo {
-            max-width: 650px;
-            width: 48%;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-logo img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .hero-headline {
-            font-family: 'Giaza Stencil', 'Georgia', serif;
-            font-size: clamp(36px, 5.5vw, 72px);
-            font-weight: 400;
-            line-height: 1.2;
-            letter-spacing: 0.02em;
-            margin-bottom: 20px;
-            color: #272727;
-            animation: fadeInUp 1s ease 0.2s both;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-subheadline {
-            font-size: clamp(19px, 2.5vw, 28px);
-            font-weight: 400;
-            line-height: 1.5;
-            color: #272727;
-            opacity: 0.85;
-            margin-bottom: 36px;
-            max-width: 820px;
-            animation: fadeInUp 1s ease 0.4s both;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-cta-group {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-            animation: fadeInUp 1s ease 0.6s both;
-            position: relative;
-            z-index: 2;
-        }
-
-        .cta-primary {
-            background: #272727;
-            color: white;
-            padding: 14px 30px;
-            border-radius: 980px;
-            font-size: 17px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .cta-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 24px rgba(39, 39, 39, 0.2);
-        }
-
-        .cta-secondary {
-            color: #272727;
-            padding: 14px 30px;
-            border-radius: 980px;
-            font-size: 17px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(39, 39, 39, 0.3);
-        }
-
-        .cta-secondary:hover {
-            border-color: rgba(39, 39, 39, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .scroll-indicator {
+        .hero::after {
+            content: '';
             position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            animation: bounce 2s infinite;
+            bottom: -10%;
+            left: -15%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(217, 79, 43, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
-            stroke: rgba(39, 39, 39, 0.5);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .wave-divider {
-            position: relative;
-            width: 100%;
-            height: 100px;
-            margin-top: -1px;
-        }
-
-        .wave-divider svg {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-        }
-
-        .section-full {
-            padding: 100px 20px;
-            position: relative;
-        }
-
-        .section-bg-white {
-            background: #fff;
-        }
-
-        .section-bg-beige {
-            background: #f5ebe3;
-        }
-
-        .section-bg-light {
-            background: #f5f5f7;
-        }
-
-        .section-content {
-            max-width: 1800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .section-eyebrow {
-            font-size: 12px;
-            font-weight: 600;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #E44C3F;
-            margin-bottom: 10px;
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 4px;
+            color: var(--coral);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
         }
 
-        .section-headline {
-            font-family: 'Giaza Stencil', 'Georgia', serif;
-            font-size: clamp(44px, 5.5vw, 68px);
+        .hero-badge::before,
+        .hero-badge::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--coral);
+            opacity: 0.4;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.8rem, 6.5vw, 5.5rem);
             font-weight: 400;
-            line-height: 1.25;
-            letter-spacing: 0.02em;
-            margin-bottom: 20px;
-            color: #272727;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--charcoal);
+            max-width: 800px;
+            margin-bottom: 1.75rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
         }
 
-        .section-body {
-            font-size: 21px;
-            line-height: 1.47;
-            color: #272727;
-            opacity: 0.8;
-            max-width: 640px;
-            margin: 0 auto 30px;
+        .hero h1 em {
+            font-style: italic;
+            color: var(--coral);
         }
 
-        .section-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            position: relative;
-            align-items: start;
+        .hero-sub {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 520px;
+            line-height: 1.65;
+            margin-bottom: 3rem;
+            font-weight: 400;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
         }
 
-        .split-item {
-            padding: 80px 60px;
+        .hero-actions {
             display: flex;
-            flex-direction: column;
+            gap: 1rem;
             align-items: center;
-            justify-content: flex-start;
-            text-align: center;
-            min-height: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
         }
 
-        .split-item .section-eyebrow {
-            font-size: 14px;
-        }
-
-        .split-item .section-headline {
-            font-size: clamp(36px, 4.5vw, 52px);
-        }
-
-        .split-bg-coral {
-            background: linear-gradient(135deg, #E44C3F 0%, #ED6549 50%, #EF8A57 100%);
-        }
-
-        .split-bg-light {
-            background: #ede9e6;
-        }
-
-        .problem-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-width: 500px;
-            margin: 40px auto 0;
-            width: 100%;
-        }
-
-        .problem-card {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 24px 28px;
-            text-align: left;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--cream);
+            background: linear-gradient(135deg, var(--coral-deep), var(--coral));
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
             cursor: pointer;
-            position: relative;
-            min-height: 90px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(217, 79, 43, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(217, 79, 43, 0.35);
+        }
+
+        .btn-secondary {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: none;
+            border: 1.5px solid rgba(107, 92, 82, 0.2);
+            padding: 0.85rem 1.8rem;
+            border-radius: 100px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
+            flex-direction: column;
             align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 1.2s forwards;
         }
 
-        .split-bg-light .problem-card {
-            background: rgba(228, 76, 63, 0.08);
-            border: 1px solid rgba(228, 76, 63, 0.15);
+        .hero-scroll span {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-warm);
         }
 
-        .problem-card:hover {
-            transform: translateX(8px);
-            background: rgba(255, 255, 255, 0.25);
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--coral), transparent);
+            animation: scrollPulse 2s ease infinite;
         }
 
-        .split-bg-light .problem-card:hover {
-            background: rgba(228, 76, 63, 0.15);
+        /* ========== PHILOSOPHY BANNER ========== */
+        .philosophy {
+            background: linear-gradient(135deg, var(--coral-deep), var(--coral), var(--peach));
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .problem-text {
-            font-size: 21px;
-            line-height: 1.5;
-            color: #272727;
+        .philosophy::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .philosophy blockquote {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+            font-weight: 400;
+            line-height: 1.35;
+            color: var(--cream);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+
+        .philosophy blockquote em {
+            font-style: italic;
             opacity: 0.9;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s ease;
+        /* ========== PROBLEM ========== */
+        .problem {
+            padding: 7rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 1.5rem;
         }
 
-        .modal-content {
-            background: white;
-            padding: 32px;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
+        .problem h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+        }
+
+        .problem p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .problem p:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-callout {
+            background: linear-gradient(135deg, rgba(217, 79, 43, 0.04), rgba(240, 166, 114, 0.06));
+            border-left: 3px solid var(--coral);
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .stat-callout p {
+            font-size: 1rem;
+            color: var(--charcoal-light);
+            margin-bottom: 0;
+        }
+
+        .stat-callout strong {
+            color: var(--coral-deep);
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .how-it-works {
+            padding: 7rem 2rem;
+            background: var(--charcoal);
+            color: var(--cream);
             position: relative;
-            animation: slideUp 0.3s ease;
+            overflow: hidden;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-close {
+        .how-it-works::before {
+            content: '';
             position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 28px;
-            font-weight: 300;
-            color: #272727;
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            top: 0;
+            right: 0;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(232, 103, 61, 0.08) 0%, transparent 60%);
+            border-radius: 50%;
         }
 
-        .modal-close:hover {
-            transform: rotate(90deg);
+        .how-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        .modal-example {
-            font-style: italic;
-            color: #272727;
-            opacity: 0.8;
-            margin-bottom: 16px;
-            padding: 16px;
-            background: rgba(228, 76, 63, 0.05);
-            border-radius: 12px;
-            line-height: 1.5;
-            font-size: 16px;
+        .how-it-works .section-label {
+            color: var(--peach);
         }
 
-        .modal-arrow {
-            text-align: center;
-            font-size: 20px;
-            color: #E44C3F;
-            margin: 16px 0;
+        .how-it-works h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--cream);
+            margin-bottom: 1rem;
         }
 
-        .modal-solution {
-            color: #272727;
-            opacity: 0.8;
-            padding: 16px;
-            background: rgba(228, 76, 63, 0.05);
-            border-radius: 12px;
-            line-height: 1.5;
-            font-size: 16px;
+        .how-intro {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 245, 237, 0.6);
+            max-width: 600px;
+            margin-bottom: 4rem;
         }
 
-        .feature-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3px;
-            max-width: 99.5%;
-            margin: 60px auto 0;
-            width: 99.5%;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 18px;
-            padding: 44px 50px;
-            text-align: left;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2.25rem;
             transition: all 0.4s ease;
-            border: 1px solid rgba(39, 39, 39, 0.04);
-            border-left: 4px solid #E44C3F;
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--coral), var(--peach));
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 60px rgba(228, 76, 63, 0.2);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #E44C3F, #EF8A57);
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
+            background: linear-gradient(135deg, rgba(232, 103, 61, 0.15), rgba(240, 166, 114, 0.1));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            margin-bottom: 1.25rem;
+            font-size: 1.2rem;
         }
 
-        .feature-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #272727;
-        }
-
-        .feature-description {
-            font-size: 17px;
-            line-height: 1.47;
-            color: #272727;
-            opacity: 0.7;
-        }
-
-        .section-subheadline {
-            font-size: clamp(21px, 2.5vw, 28px);
+        .feature-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
             font-weight: 400;
-            line-height: 1.38;
-            color: #272727;
-            opacity: 0.85;
-            margin-bottom: 30px;
+            color: var(--cream);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
         }
 
-        .contact-section {
-            background: linear-gradient(to bottom, #f9f0ed 0%, #f5e8e3 100%);
-            padding: 100px 20px 120px;
-            text-align: center;
-            border-top: 1px solid rgba(228, 76, 63, 0.1);
+        .feature-card p {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: rgba(255, 245, 237, 0.55);
         }
 
-        .contact-content {
-            max-width: 700px;
-            margin: 0 auto;
+        .feature-card .feature-desc {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: rgba(255, 245, 237, 0.55);
+            margin-bottom: 1rem;
         }
 
-        .contact-title {
-            font-size: clamp(28px, 4vw, 36px);
-            font-weight: 600;
-            color: #272727;
-            margin-bottom: 20px;
-        }
-
-        .contact-text {
-            font-size: clamp(16px, 2.5vw, 19px);
-            color: #272727;
-            opacity: 0.7;
-            margin-bottom: 48px;
-            line-height: 1.6;
-        }
-
-        .contact-links {
+        .feature-bullets {
+            list-style: none;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 32px;
-            align-items: center;
+            gap: 0.6rem;
         }
 
-        .contact-item {
+        .feature-bullets li {
+            font-size: 0.85rem;
+            line-height: 1.55;
+            color: rgba(255, 245, 237, 0.5);
+            padding-left: 1.1rem;
+            position: relative;
+        }
+
+        .feature-bullets li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--coral);
+            opacity: 0.6;
+        }
+
+        .score-items {
+            list-style: none;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
+            margin-top: 1rem;
         }
 
-        .contact-label {
-            font-size: clamp(13px, 2vw, 14px);
-            color: #272727;
-            opacity: 0.5;
-            text-transform: lowercase;
+        .score-items li {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: rgba(255, 245, 237, 0.55);
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .score-items li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.45em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .score-items li:nth-child(1)::before { background: var(--coral); }
+        .score-items li:nth-child(2)::before { background: var(--peach); }
+        .score-items li:nth-child(3)::before { background: #F5D0A9; }
+
+        .score-items strong {
+            color: var(--cream);
             font-weight: 500;
         }
 
-        .contact-link {
-            font-size: clamp(18px, 3vw, 22px);
-            color: #E44C3F;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            font-weight: 600;
+        .feature-highlight {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(217, 79, 43, 0.12), rgba(240, 166, 114, 0.06));
+            border-color: rgba(232, 103, 61, 0.15);
+            display: flex;
+            gap: 3rem;
+            align-items: center;
         }
 
-        .contact-link:hover {
-            opacity: 0.7;
-            transform: translateY(-1px);
+        .feature-highlight .feature-text {
+            flex: 1;
         }
 
-        .contact-divider {
-            display: none;
+        .feature-highlight .feature-visual {
+            flex: 0 0 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
-        @media (min-width: 600px) {
-            .contact-links {
-                flex-direction: row;
-                gap: 48px;
-                justify-content: center;
-            }
-
-            .contact-divider {
-                display: block;
-                width: 1px;
-                height: 60px;
-                background: rgba(228, 76, 63, 0.2);
-            }
+        .score-rings {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-bottom: 0.75rem;
         }
 
-        .footer {
-            background: linear-gradient(135deg, #E44C3F 0%, #ED6549 50%, #EF8A57 100%);
-            padding: 40px 20px;
-            text-align: center;
+        .score-ring-small {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2.5px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
-        .footer-logo {
-            max-width: 400px;
+        .score-ring-small .score-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .score-ring-small .score-label {
+            font-size: 0.5rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+
+        .score-ring-small.connect {
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+        .score-ring-small.connect .score-label { color: rgba(255,245,237,0.4); }
+
+        .score-ring-small.balance {
+            border-color: var(--peach);
+            color: var(--peach);
+        }
+        .score-ring-small.balance .score-label { color: rgba(255,245,237,0.4); }
+
+        .score-ring-small.momentum {
+            border-color: #F5D0A9;
+            color: #F5D0A9;
+        }
+        .score-ring-small.momentum .score-label { color: rgba(255,245,237,0.4); }
+
+        /* ========== THE PRODUCT FLOW ========== */
+        .product-flow {
+            padding: 7rem 2rem;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .footer-logo img {
+        .product-flow h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .product-flow .section-intro {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 4rem;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .flow-steps::before {
+            content: '';
+            position: absolute;
+            left: 23px;
+            top: 48px;
+            bottom: 48px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--coral), var(--peach), transparent);
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 2.5rem;
+            align-items: flex-start;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .step-marker {
+            flex: 0 0 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--coral-deep), var(--coral));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(217, 79, 43, 0.2);
+        }
+
+        .step-content h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+
+        .step-content p {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .step-content .step-example {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: var(--text-warm);
+            margin-top: 0.5rem;
+        }
+
+        .step-detail {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-size: 0.82rem;
+            color: var(--coral);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* ========== SINGLE/MULTI PLAYER ========== */
+        .modes {
+            padding: 5rem 2rem 7rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .mode-card {
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card.single {
+            background: var(--cream);
+            border: 1px solid rgba(217, 79, 43, 0.08);
+        }
+
+        .mode-card.multi {
+            background: linear-gradient(135deg, var(--coral-deep), var(--coral), var(--peach));
+            color: var(--cream);
+        }
+
+        .mode-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .mode-card.single .mode-tag { color: var(--coral); }
+        .mode-card.multi .mode-tag { color: rgba(255, 245, 237, 0.7); }
+
+        .mode-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .mode-card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .mode-card.single p { color: var(--text-muted); }
+        .mode-card.multi p { color: rgba(255, 245, 237, 0.75); }
+
+        /* ========== FOR WHO ========== */
+        .for-who {
+            padding: 7rem 2rem;
+            background: var(--cream);
+        }
+
+        .for-who-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .for-who h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+            margin-bottom: 3rem;
+        }
+
+        .persona-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .persona {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.75rem 2rem;
+            background: var(--cream-light);
+            border-radius: 16px;
+            border: 1px solid rgba(217, 79, 43, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .persona:hover {
+            border-color: rgba(217, 79, 43, 0.1);
+            transform: translateX(4px);
+        }
+
+        .persona-marker {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--coral);
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .persona h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 0.35rem;
+        }
+
+        .persona p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* ========== WAITLIST ========== */
+        .waitlist {
+            padding: 7rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .waitlist-inner {
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .waitlist h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .waitlist p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 2.5rem;
+        }
+
+        .waitlist-note {
+            font-size: 0.78rem;
+            color: var(--text-warm);
+            opacity: 0.6;
+            margin-top: 0.5rem;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--charcoal);
+            color: rgba(255, 245, 237, 0.5);
+            padding: 3.5rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-brand span {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            background: var(--coral);
+            border-radius: 50%;
+            margin-left: 1px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: rgba(255, 245, 237, 0.35);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            color: rgba(255, 245, 237, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--peach);
+        }
+
+        .footer-copy {
             width: 100%;
-            height: auto;
-            display: block;
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(255, 245, 237, 0.2);
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        @media (max-width: 834px) {
-            .section-split {
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 0.8; transform: scaleY(1.2); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.25rem;
+            }
+
+            nav.scrolled {
+                padding: 0.75rem 1.25rem;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 5rem;
+                min-height: 90vh;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            .philosophy {
+                padding: 3.5rem 1.5rem;
+            }
+
+            .problem, .product-flow {
+                padding: 5rem 1.5rem;
+            }
+
+            .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .split-item {
-                padding: 60px 40px;
+            .feature-highlight {
+                flex-direction: column;
+                gap: 2rem;
             }
 
-            .feature-grid {
+            .feature-highlight .feature-visual {
+                flex: initial;
+                width: 100%;
+            }
+
+            .modes-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        @media (max-width: 1200px) and (min-width: 835px) {
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .flow-step {
+                gap: 1.5rem;
+            }
+
+            .persona {
+                gap: 1rem;
+                padding: 1.25rem 1.5rem;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+
+            .footer-links {
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-logo-left">
-            <img src="icon-transparent.png" alt="dearli">
-        </div>
-        <a href="#waitlist" class="header-cta">join waitlist</a>
-    </header>
 
-    <section class="hero-section" id="hero">
-        <div class="hero-logo">
-            <img src="logo-transparent.png" alt="dearli">
-        </div>
-        
-        <h1 class="hero-headline">your personal<br>relationship manager.</h1>
-        <p class="hero-subheadline">spend less time planning and more time together.</p>
-        
-        <div class="hero-cta-group">
-            <a href="#waitlist" class="cta-primary">join the waitlist</a>
-            <a href="#learn-more" class="cta-secondary">learn more</a>
-        </div>
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">dearli<span></span></a>
+        <a href="#waitlist" class="nav-cta">join waitlist</a>
+    </nav>
 
-        <div class="scroll-indicator">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 4v16m0 0l-6-6m6 6l6-6"/>
-            </svg>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">launching 2026</div>
+        <h1>your personal <em>relationship</em> manager.</h1>
+        <p class="hero-sub">dearli is the AI that helps you see your favorite people more. less time planning, more time together.</p>
+        <div class="hero-actions">
+            <a href="#waitlist" class="btn-primary">join the waitlist</a>
+            <a href="#how" class="btn-secondary">see how it works</a>
+        </div>
+        <div class="hero-scroll">
+            <span>scroll</span>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
-    <div class="wave-divider">
-        <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <path d="M0,0 C300,100 900,0 1200,50 L1200,100 L0,100 Z" fill="#fff"/>
-        </svg>
-    </div>
-
-    <section class="section-full section-bg-white" id="learn-more">
-        <div class="section-content">
-            <div class="section-eyebrow">the problem</div>
-            <h2 class="section-headline">you know who matters.<br>but where does the time go?</h2>
-            <p class="section-body">hours disappear into scrolling, into busy work, into people who don't actually fill your cup. meanwhile the friends and family you actually care about drift further away. not because you don't care — because life doesn't have a way to show you what you're missing.</p>
-            
-            <div style="margin: 80px 0;">
-                <div class="section-eyebrow">what we're building</div>
-                <h2 class="section-headline">see where your time goes.<br>then spend it better.</h2>
-                <p class="section-body">dearli shows you who you're actually staying close to — and who's slipping. then it helps you do something about it. less time coordinating, more time together. your relationships, finally given the attention they deserve.</p>
-            </div>
-        </div>
+    <!-- PHILOSOPHY -->
+    <section class="philosophy">
+        <blockquote class="reveal">
+            every app on your phone is engineered to keep you scrolling. dearli is technology built to make you <em>less dependent</em> on technology. we're not competing for screen time. we're fighting for face time.
+        </blockquote>
     </section>
 
-    <section class="section-split">
-        <div class="split-item split-bg-coral">
-            <div class="section-eyebrow" style="color: #272727;">friends</div>
-            <h2 class="section-headline" style="font-size: clamp(32px, 4vw, 48px);">more time with<br>people who get you.</h2>
-            <div class="problem-stack">
-                <div class="problem-card" onclick="openModal('friend1')">
-                    <p class="problem-text">the friends who make you laugh until your face hurts</p>
-                </div>
-                <div class="problem-card" onclick="openModal('friend2')">
-                    <p class="problem-text">the ones you can be quiet with</p>
-                </div>
-                <div class="problem-card" onclick="openModal('friend3')">
-                    <p class="problem-text">the people you text every day but somehow never see</p>
-                </div>
-            </div>
+    <!-- PROBLEM -->
+    <section class="problem">
+        <div class="section-label reveal">the problem</div>
+        <h2 class="reveal">the people you care about most are quietly becoming names on a screen.</h2>
+        <p class="reveal">growing up, seeing your people was effortless. you were close by, your time was your own, and life hadn't piled on yet. adulthood changed all of that. you're busier, more drained, more scattered, and nothing stepped in to replace what you lost.</p>
+        <div class="stat-callout reveal">
+            <p>the surgeon general declared loneliness a <strong>public health epidemic</strong> with health impacts on par with smoking 15 cigarettes a day.</p>
         </div>
-
-        <div class="split-item split-bg-light">
-            <div class="section-eyebrow">family</div>
-            <h2 class="section-headline" style="font-size: clamp(32px, 4vw, 48px);">more time with<br>your longest relationships.</h2>
-            <div class="problem-stack">
-                <div class="problem-card" onclick="openModal('family1')">
-                    <p class="problem-text">the people who've known you through every version of yourself</p>
-                </div>
-                <div class="problem-card" onclick="openModal('family2')">
-                    <p class="problem-text">the siblings scattered across time zones</p>
-                </div>
-                <div class="problem-card" onclick="openModal('family3')">
-                    <p class="problem-text">the parents you call less than you mean to</p>
-                </div>
-            </div>
-        </div>
+        <p class="reveal">and social media has made it worse. you see your friends' lives through stories and feeds every day, creating an illusion of closeness that masks how disconnected you actually are. you feel like you're keeping up because you liked their photo, but you haven't sat across from them in months.</p>
+        <p class="reveal">the caring was never the problem. the coordination was. there's nothing in your life designed to help you maintain your most important relationships. until now.</p>
     </section>
 
-    <div id="friend1" class="modal" onclick="closeModal('friend1')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('friend1')">&times;</button>
-            <p class="modal-example">your favorite people to be around. the ones where time flies and your face hurts from laughing. you want to see them more than a few times a year.</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli helps you build a rhythm — monthly dinners, regular hangouts, whatever works — so you actually make it happen.</p>
-        </div>
-    </div>
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how">
+        <div class="how-inner">
+            <div class="section-label reveal">meet dearli</div>
+            <h2 class="reveal">an AI that actually knows your relationships.</h2>
+            <p class="how-intro reveal">dearli learns who matters to you, how you like to spend time together, and when you're free. then it does the hard part for you.</p>
 
-    <div id="friend2" class="modal" onclick="closeModal('friend2')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('friend2')">&times;</button>
-            <p class="modal-example">the low-key friendships. no agenda, no performance. just coffee, a walk, comfortable silence. these don't need to be events — they just need to happen.</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli makes spontaneous hangouts easy. see who's free, pick a spot, done.</p>
-        </div>
-    </div>
-
-    <div id="friend3" class="modal" onclick="closeModal('friend3')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('friend3')">&times;</button>
-            <p class="modal-example">you talk every day in the group chat. memes, updates, reactions. but when's the last time you were actually in the same room?</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli turns "we should all hang out" into an actual date everyone can make.</p>
-        </div>
-    </div>
-
-    <div id="family1" class="modal" onclick="closeModal('family1')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('family1')">&times;</button>
-            <p class="modal-example">the people who remember who you were before you figured yourself out. who've seen every awkward phase, every reinvention, every version. that history matters.</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli helps you stay close to the people who know you longest — not just when there's a birthday or holiday.</p>
-        </div>
-    </div>
-
-    <div id="family2" class="modal" onclick="closeModal('family2')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('family2')">&times;</button>
-            <p class="modal-example">your siblings are in three different time zones. someone's always at work when you're free. finding a time to all talk feels impossible.</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli compares everyone's calendars and finds the windows that actually work.</p>
-        </div>
-    </div>
-
-    <div id="family3" class="modal" onclick="closeModal('family3')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal('family3')">&times;</button>
-            <p class="modal-example">you think about calling your parents way more often than you actually do. weeks slip by. you feel guilty but somehow still don't pick up the phone.</p>
-            <div class="modal-arrow">→</div>
-            <p class="modal-solution">dearli helps you build a simple rhythm — a weekly call, a regular check-in — and gently reminds you when it's been a while.</p>
-        </div>
-    </div>
-
-    <section class="section-full section-bg-light">
-        <div class="section-content">
-            <h2 class="section-headline">how it works.</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📌</div>
+                    <h3>pins & crews</h3>
+                    <p class="feature-desc">organize your relationships the way you think about them.</p>
+                    <ul class="feature-bullets">
+                        <li>add individuals as <strong style="color:var(--cream);font-weight:500;">pins</strong> — friends, family, anyone you want to stay close to</li>
+                        <li>group them into <strong style="color:var(--cream);font-weight:500;">crews</strong> — your college friends, your siblings, your work crew</li>
+                        <li>set goals for each relationship, like texting weekly or meeting up monthly</li>
+                        <li>dearli tracks your progress and keeps you accountable</li>
+                    </ul>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>sparks</h3>
+                    <p class="feature-desc">initiate a hangout and let the AI handle the rest.</p>
+                    <ul class="feature-bullets">
+                        <li>dearli checks your calendar, your interests, and the other person's availability</li>
+                        <li>suggests a specific date, place, and activity</li>
+                        <li>send the invite in one tap</li>
+                        <li>no more 47-message group threads that end with no decision</li>
+                    </ul>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>bucket lists</h3>
+                    <p class="feature-desc">save the things you actually want to do — then do them.</p>
+                    <ul class="feature-bullets">
+                        <li>add specific restaurants, activities, and places you want to try</li>
+                        <li>dearli smart-matches them with people in your circle who want to go too</li>
+                        <li>prompts the right time and the right person to make it happen</li>
+                    </ul>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🤖</div>
+                    <h3>agent-to-agent</h3>
+                    <p class="feature-desc">when both people use dearli, the AI handles everything.</p>
+                    <ul class="feature-bullets">
+                        <li>your agent talks to your friend's agent directly</li>
+                        <li>finds mutual free time automatically</li>
+                        <li>proposes a plan that works for both of you</li>
+                        <li>zero back-and-forth — just a plan that's ready to go</li>
+                    </ul>
+                </div>
+                <div class="feature-highlight feature-card reveal">
+                    <div class="feature-text">
+                        <div class="feature-icon">💛</div>
+                        <h3>your social health scores</h3>
+                        <p class="feature-desc">think of it as an apple watch for your relationships. three individual scores that show you exactly where you stand.</p>
+                        <ul class="score-items">
+                            <li><strong>connect</strong> — how often you're actually seeing and talking to your people</li>
+                            <li><strong>balance</strong> — are you spreading your time across all the relationships that matter?</li>
+                            <li><strong>momentum</strong> — are things trending up or quietly drifting?</li>
+                        </ul>
                     </div>
-                    <h3 class="feature-title">see where your time goes</h3>
-                    <p class="feature-description">your dearli score shows you who you're actually staying close to — and where you might be drifting. awareness is the first step.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
+                    <div class="feature-visual">
+                        <div class="score-rings">
+                            <div class="score-ring-small connect">
+                                <span class="score-num">82</span>
+                                <span class="score-label">connect</span>
+                            </div>
+                            <div class="score-ring-small balance">
+                                <span class="score-num">65</span>
+                                <span class="score-label">balance</span>
+                            </div>
+                            <div class="score-ring-small momentum">
+                                <span class="score-num">78</span>
+                                <span class="score-label">momentum</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">turn intentions into plans</h3>
-                    <p class="feature-description">"we should hang out" becomes an actual date on the calendar. dearli makes scheduling easy so you actually follow through.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">share the work</h3>
-                    <p class="feature-description">everyone can suggest times and places. the invisible labor of planning gets distributed instead of falling on one person.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">stay close over time</h3>
-                    <p class="feature-description">build rhythms that stick. get gentle nudges when someone's slipping. your relationships stay healthy without constant effort.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="wave-divider" style="transform: rotate(180deg);">
-        <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <path d="M0,50 C300,0 900,100 1200,50 L1200,100 L0,100 Z" fill="#fff"/>
-        </svg>
-    </div>
+    <!-- PRODUCT FLOW -->
+    <section class="product-flow">
+        <div class="section-label reveal">the daily experience</div>
+        <h2 class="reveal">open the app. know exactly what to do.</h2>
+        <p class="section-intro reveal">dearli is proactive, not reactive. every day, it shows you who needs attention and gives you a clear action, not a vague reminder.</p>
 
-    <section class="section-full section-bg-beige" id="waitlist">
-        <div class="section-content">
-            <div class="section-eyebrow">launching q1 2026</div>
-            <h2 class="section-headline" style="margin-bottom: 50px;">more of the moments<br>that matter.</h2>
-            <p class="section-subheadline" style="margin-bottom: 5px;">join the waitlist for early access. we'll share occasional updates — nothing spammy, just things worth reading.</p>
-
-            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-            <iframe 
-                src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb" 
-                class="beehiiv-embed" 
-                data-test-id="beehiiv-embed" 
-                frameborder="0" 
-                scrolling="no" 
-                style="width: 100%; max-width: 560px; height: 150px; margin: 0 auto; border-radius: 0px; background-color: transparent;"
-            ></iframe>
-        </div>
-    </section>
-
-    <section class="contact-section">
-        <div class="contact-content">
-            <div class="contact-title">get in touch</div>
-            <p class="contact-text">questions? feedback? just want to say hi?</p>
-            <div class="contact-links">
-                <div class="contact-item">
-                    <div class="contact-label">email us:</div>
-                    <a href="mailto:hello@dearli.so" class="contact-link">hello@dearli.so</a>
+        <div class="flow-steps">
+            <div class="flow-step reveal">
+                <div class="step-marker">1</div>
+                <div class="step-content">
+                    <h3>today's focus</h3>
+                    <p>you open dearli and immediately see which relationships need attention most.</p>
+                    <p class="step-example">your college friend you haven't seen in three weeks. your mom you meant to call last weekend. quick actions are ready: text, call, or initiate a spark.</p>
                 </div>
-                <div class="contact-divider"></div>
-                <div class="contact-item">
-                    <div class="contact-label">follow on x:</div>
-                    <a href="https://x.com/dearli_so" target="_blank" rel="noopener noreferrer" class="contact-link">@dearli_so</a>
+            </div>
+            <div class="flow-step reveal">
+                <div class="step-marker">2</div>
+                <div class="step-content">
+                    <h3>dearli suggests a plan</h3>
+                    <p>not a vague "you should reach out" reminder. a specific plan.</p>
+                    <p class="step-example">that ramen place on your bucket list. this saturday at 7pm. your friend is free. one tap to send the invite.</p>
+                    <span class="step-detail">→ dearli checks their availability before suggesting</span>
                 </div>
-                <div class="contact-divider"></div>
-                <div class="contact-item">
-                    <div class="contact-label">follow on instagram:</div>
-                    <a href="https://instagram.com/dearli.so" target="_blank" rel="noopener noreferrer" class="contact-link">@dearli.so</a>
+            </div>
+            <div class="flow-step reveal">
+                <div class="step-marker">3</div>
+                <div class="step-content">
+                    <h3>the pre-hangout brief</h3>
+                    <p>before you meet up, dearli briefs you on everything you need to know.</p>
+                    <p class="step-example">personal notes about what's going on in their life. what to bring. anything you need to follow up on from last time. show up like the friend you want to be.</p>
+                </div>
+            </div>
+            <div class="flow-step reveal">
+                <div class="step-marker">4</div>
+                <div class="step-content">
+                    <h3>your scores grow</h3>
+                    <p>every hangout, every call, every meaningful interaction compounds.</p>
+                    <p class="step-example">your social health scores rise. your streaks build. dearli gets smarter about your relationships. the more you use it, the less effort it takes.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="footer-logo">
-            <img src="logo-transparent.png" alt="dearli">
+    <!-- SINGLE/MULTI PLAYER -->
+    <section class="modes">
+        <div class="modes-grid">
+            <div class="mode-card single reveal">
+                <div class="mode-tag">single-player mode</div>
+                <h3>valuable from day one.</h3>
+                <p>you don't need anyone else to download the app.</p>
+                <p style="margin-top:0.75rem;">import your contacts. set goals. log interactions. dearli becomes your personal relationship dashboard — drafting ready-to-send texts when someone's overdue.</p>
+            </div>
+            <div class="mode-card multi reveal">
+                <div class="mode-tag">multiplayer mode</div>
+                <h3>where the magic happens.</h3>
+                <p>when others in your circle join, dearli compounds.</p>
+                <p style="margin-top:0.75rem;">agents coordinate across the group. availability syncs automatically. crew-level planning becomes effortless. the product is measurably better when your whole circle is on it.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOR WHO -->
+    <section class="for-who">
+        <div class="for-who-inner">
+            <div class="section-label reveal">who it's for</div>
+            <h2 class="reveal">for anyone who cares more than their calendar shows.</h2>
+
+            <div class="persona-list">
+                <div class="persona reveal">
+                    <div class="persona-marker">→</div>
+                    <div>
+                        <h4>the coordinator friend</h4>
+                        <p>you're always the one making plans. you carry the invisible labor of keeping your friend group together. dearli takes that weight off you and distributes it.</p>
+                    </div>
+                </div>
+                <div class="persona reveal">
+                    <div class="persona-marker">→</div>
+                    <div>
+                        <h4>the busy professional</h4>
+                        <p>you care deeply but have no bandwidth. weeks slip by before you realize you haven't seen the people who matter most. dearli makes sure that doesn't happen.</p>
+                    </div>
+                </div>
+                <div class="persona reveal">
+                    <div class="persona-marker">→</div>
+                    <div>
+                        <h4>the long-distance friend</h4>
+                        <p>your best friends are scattered across time zones. finding a time everyone can FaceTime feels impossible. dearli compares calendars and finds the windows that actually work.</p>
+                    </div>
+                </div>
+                <div class="persona reveal">
+                    <div class="persona-marker">→</div>
+                    <div>
+                        <h4>the family connector</h4>
+                        <p>you think about calling your parents way more often than you actually do. dearli helps you build a simple rhythm and gently reminds you when it's been a while.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="waitlist" id="waitlist">
+        <div class="waitlist-inner">
+            <div class="section-label reveal">launching 2026</div>
+            <h2 class="reveal">more of the moments that matter.</h2>
+            <p class="reveal">join the waitlist for early access. we'll share occasional updates — nothing spammy, just things worth reading.</p>
+            <div class="reveal" id="waitlist-form">
+                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+                <iframe 
+                    src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb" 
+                    class="beehiiv-embed" 
+                    data-test-id="beehiiv-embed" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    style="width: 100%; max-width: 480px; height: 150px; margin: 0 auto; border-radius: 0px; background-color: transparent;"
+                ></iframe>
+            </div>
+            <p class="waitlist-note reveal">no spam. unsubscribe anytime.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">dearli<span></span></div>
+                <div class="footer-tagline">your personal relationship manager</div>
+            </div>
+            <div class="footer-links">
+                <a href="mailto:hello@dearli.so">hello@dearli.so</a>
+                <a href="https://x.com/dearli_so" target="_blank">x / twitter</a>
+                <a href="https://instagram.com/dearli.so" target="_blank">instagram</a>
+            </div>
+            <div class="footer-copy">&copy; 2025 shaman ventures llc. all rights reserved.</div>
         </div>
     </footer>
 
     <script>
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        // Scroll-triggered reveals
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.style.overflow = '';
-        }
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Nav scroll state
+        window.addEventListener('scroll', () => {
+            document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
     </script>
 </body>
 </html>
