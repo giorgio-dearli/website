@@ -303,6 +303,87 @@
             opacity: 0.9;
         }
 
+        /* ========== PRODUCT SHOWCASE (NEW) ========== */
+        .product-showcase {
+            padding: 6rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-showcase .section-label {
+            margin-bottom: 1rem;
+        }
+
+        .product-showcase h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-showcase .showcase-sub {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+        }
+
+        .showcase-phones {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .showcase-phone {
+            flex: 0 0 auto;
+            width: 200px;
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .showcase-phone:hover {
+            transform: translateY(-8px);
+        }
+
+        .showcase-phone img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.12));
+        }
+
+        .showcase-phone-label {
+            margin-top: 0.75rem;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-warm);
+        }
+
+        /* Slight scale variations for depth */
+        .showcase-phone:nth-child(1) { transform: scale(0.92); }
+        .showcase-phone:nth-child(2) { transform: scale(0.96); }
+        .showcase-phone:nth-child(3) { transform: scale(1); z-index: 2; }
+        .showcase-phone:nth-child(4) { transform: scale(0.96); }
+
+        .showcase-phone:nth-child(1):hover { transform: scale(0.92) translateY(-8px); }
+        .showcase-phone:nth-child(2):hover { transform: scale(0.96) translateY(-8px); }
+        .showcase-phone:nth-child(3):hover { transform: scale(1) translateY(-8px); }
+        .showcase-phone:nth-child(4):hover { transform: scale(0.96) translateY(-8px); }
+
         /* ========== PROBLEM ========== */
         .problem {
             padding: 7rem 2rem;
@@ -611,6 +692,67 @@
             color: #F5D0A9;
         }
         .score-ring-small.momentum .score-label { color: rgba(255,245,237,0.4); }
+
+        /* ========== AGENT SHOWCASE (NEW) ========== */
+        .agent-showcase {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(217, 79, 43, 0.06), rgba(240, 166, 114, 0.03));
+            border: 1px solid rgba(232, 103, 61, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .agent-showcase .agent-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .agent-showcase .agent-text .feature-icon {
+            margin-bottom: 1.25rem;
+        }
+
+        .agent-showcase .agent-text h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .agent-showcase .agent-text .feature-desc {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: rgba(255, 245, 237, 0.55);
+            margin-bottom: 1rem;
+        }
+
+        .agent-showcase .agent-phones {
+            flex: 0 0 auto;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .agent-showcase .agent-phone {
+            width: 150px;
+            position: relative;
+        }
+
+        .agent-showcase .agent-phone img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.25));
+        }
+
+        .agent-showcase .agent-phone:first-child {
+            transform: scale(1.05);
+            z-index: 2;
+        }
 
         /* ========== THE PRODUCT FLOW ========== */
         .product-flow {
@@ -992,6 +1134,47 @@
                 padding: 3.5rem 1.5rem;
             }
 
+            .product-showcase {
+                padding: 4rem 1rem 1rem;
+            }
+
+            .showcase-phones {
+                gap: 0.5rem;
+                padding: 0;
+                overflow-x: auto;
+                justify-content: flex-start;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                padding-bottom: 1rem;
+            }
+
+            .showcase-phones::-webkit-scrollbar {
+                display: none;
+            }
+
+            .showcase-phone {
+                width: 150px;
+                flex-shrink: 0;
+            }
+
+            .showcase-phone:nth-child(1),
+            .showcase-phone:nth-child(2),
+            .showcase-phone:nth-child(3),
+            .showcase-phone:nth-child(4) {
+                transform: scale(1);
+            }
+
+            .showcase-phone:nth-child(1):hover,
+            .showcase-phone:nth-child(2):hover,
+            .showcase-phone:nth-child(3):hover,
+            .showcase-phone:nth-child(4):hover {
+                transform: scale(1);
+            }
+
+            .showcase-label {
+                font-size: 0.7rem;
+            }
+
             .problem, .product-flow {
                 padding: 5rem 1.5rem;
             }
@@ -1008,6 +1191,20 @@
             .feature-highlight .feature-visual {
                 flex: initial;
                 width: 100%;
+            }
+
+            .agent-showcase {
+                flex-direction: column-reverse;
+                gap: 2rem;
+            }
+
+            .agent-showcase .agent-phones {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .agent-showcase .agent-phone {
+                width: 120px;
             }
 
             .modes-grid {
@@ -1102,6 +1299,31 @@
         </blockquote>
     </section>
 
+    <!-- PRODUCT SHOWCASE (NEW) -->
+    <section class="product-showcase">
+        <div class="section-label reveal">the product</div>
+        <h2 class="reveal">a real app, built and ready for beta.</h2>
+        <p class="showcase-sub reveal">four core tabs. one mission. see your people more.</p>
+        <div class="showcase-phones reveal">
+            <div class="showcase-phone">
+                <img src="screen-home.png" alt="dearli home screen with social health scores and today's focus" loading="lazy">
+                <div class="showcase-phone-label">home</div>
+            </div>
+            <div class="showcase-phone">
+                <img src="screen-crews.png" alt="dearli crews and pins — organize your relationships" loading="lazy">
+                <div class="showcase-phone-label">pins & crews</div>
+            </div>
+            <div class="showcase-phone">
+                <img src="screen-calendar.png" alt="dearli calendar integration and availability" loading="lazy">
+                <div class="showcase-phone-label">calendar</div>
+            </div>
+            <div class="showcase-phone">
+                <img src="screen-sparks.png" alt="dearli sparks — AI-powered hangout planning" loading="lazy">
+                <div class="showcase-phone-label">sparks</div>
+            </div>
+        </div>
+    </section>
+
     <!-- PROBLEM -->
     <section class="problem">
         <div class="section-label reveal">the problem</div>
@@ -1141,7 +1363,7 @@
                         <li>dearli checks your calendar, your interests, and the other person's availability</li>
                         <li>suggests a specific date, place, and activity</li>
                         <li>send the invite in one tap</li>
-                        <li>no more 47-message group threads that end with no decision</li>
+                        <li>no more 27-message group threads that end with no decision</li>
                     </ul>
                 </div>
                 <div class="feature-card reveal">
@@ -1154,17 +1376,33 @@
                         <li>prompts the right time and the right person to make it happen</li>
                     </ul>
                 </div>
-                <div class="feature-card reveal">
-                    <div class="feature-icon">🤖</div>
-                    <h3>agent-to-agent</h3>
-                    <p class="feature-desc">when both people use dearli, the AI handles everything.</p>
-                    <ul class="feature-bullets">
-                        <li>your agent talks to your friend's agent directly</li>
-                        <li>finds mutual free time automatically</li>
-                        <li>proposes a plan that works for both of you</li>
-                        <li>zero back-and-forth — just a plan that's ready to go</li>
-                    </ul>
+
+                <!-- AGENT SHOWCASE WITH SCREENSHOTS (NEW) -->
+                <div class="agent-showcase reveal">
+                    <div class="agent-text">
+                        <div class="feature-icon">🤖</div>
+                        <h3>your AI agent</h3>
+                        <p class="feature-desc">the most advanced way to coordinate. dearli's agent finds a match, picks a spot, and builds a complete plan. one tap to confirm.</p>
+                        <ul class="feature-bullets">
+                            <li>daily briefings on who to see and what's coming up</li>
+                            <li>venue suggestions based on your preferences and location</li>
+                            <li>pre-hangout briefs so you show up like the friend you want to be</li>
+                            <li>when both people use dearli, agents coordinate directly — zero back-and-forth</li>
+                        </ul>
+                    </div>
+                    <div class="agent-phones">
+                        <div class="agent-phone">
+                            <img src="screen-agent.png" alt="dearli AI agent — finds matches and builds plans" loading="lazy">
+                        </div>
+                        <div class="agent-phone">
+                            <img src="screen-community.png" alt="dearli community — streaks, insights, and social balance" loading="lazy">
+                        </div>
+                        <div class="agent-phone">
+                            <img src="screen-bucketlist.png" alt="dearli bucket list — save and discover places" loading="lazy">
+                        </div>
+                    </div>
                 </div>
+
                 <div class="feature-highlight feature-card reveal">
                     <div class="feature-text">
                         <div class="feature-icon">💛</div>
