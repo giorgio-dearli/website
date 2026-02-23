@@ -359,9 +359,9 @@
 
         .showcase-phone img {
             width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 18.3;
+            height: 410px;
             object-fit: contain;
+            object-position: top center;
             display: block;
             filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.12));
         }
@@ -491,7 +491,7 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
         }
 
@@ -746,9 +746,9 @@
 
         .agent-showcase .agent-phone img {
             width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 18.3;
+            height: 310px;
             object-fit: contain;
+            object-position: top center;
             display: block;
             filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.25));
         }
@@ -983,10 +983,11 @@
             padding: 7rem 2rem;
             text-align: center;
             position: relative;
+            overflow: visible;
         }
 
         .waitlist-inner {
-            max-width: 550px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
@@ -1005,6 +1006,20 @@
             color: var(--text-muted);
             line-height: 1.65;
             margin-bottom: 2.5rem;
+        }
+
+        #waitlist-form {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            overflow: visible;
+        }
+
+        #waitlist-form iframe {
+            width: 100% !important;
+            max-width: 480px !important;
+            margin: 0 auto;
+            display: block;
         }
 
         .waitlist-note {
@@ -1187,6 +1202,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .agent-showcase .agent-phone img {
+                height: 240px;
+            }
+
             .feature-highlight {
                 flex-direction: column;
                 gap: 2rem;
@@ -1240,25 +1259,19 @@
 
             /* ===== MOBILE WAITLIST FIX ===== */
             .waitlist {
-                padding: 5rem 0.75rem;
+                padding: 5rem 1.5rem;
             }
 
             .waitlist-inner {
                 max-width: 100%;
-                padding: 0 0.25rem;
-            }
-
-            .waitlist h2 {
-                padding: 0 0.75rem;
-            }
-
-            .waitlist > .waitlist-inner > p {
-                padding: 0 0.75rem;
+                padding: 0;
             }
 
             #waitlist-form {
                 width: 100%;
+                max-width: 100%;
                 overflow: visible;
+                padding: 0;
             }
 
             #waitlist-form iframe,
@@ -1266,6 +1279,10 @@
                 max-width: 100% !important;
                 width: 100% !important;
                 min-width: 0 !important;
+            }
+
+            .showcase-phone img {
+                height: 300px;
             }
         }
 
@@ -1557,7 +1574,7 @@
                     data-test-id="beehiiv-embed" 
                     frameborder="0" 
                     scrolling="no" 
-                    style="width: 100%; max-width: 480px; height: 120px; margin: 0 auto; border-radius: 0px; background-color: transparent;"
+                    style="width: 100%; max-width: 480px; height: 140px; margin: 0 auto; display: block; border-radius: 0px; background-color: transparent;"
                 ></iframe>
             </div>
             <p class="waitlist-note reveal">no spam. unsubscribe anytime.</p>
