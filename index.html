@@ -357,11 +357,10 @@
             transform: translateY(-8px);
         }
 
+        /* FIX: removed aspect-ratio and object-fit: cover — was causing zoom/crop blurriness */
         .showcase-phone img {
             width: 100%;
             height: auto;
-            aspect-ratio: 164 / 335;
-            object-fit: cover;
             display: block;
             border-radius: 20px;
             filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.12));
@@ -745,11 +744,10 @@
             position: relative;
         }
 
+        /* FIX: removed aspect-ratio and object-fit: cover — was causing zoom/crop blurriness */
         .agent-showcase .agent-phone img {
             width: 100%;
             height: auto;
-            aspect-ratio: 164 / 335;
-            object-fit: cover;
             display: block;
             border-radius: 16px;
             filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.25));
