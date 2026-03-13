@@ -339,7 +339,7 @@
         .showcase-phones {
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: flex-end; /* bottom-aligns all phones to same baseline */
             gap: 1.5rem;
             max-width: 1100px;
             margin: 0 auto;
@@ -348,22 +348,18 @@
 
         .showcase-phone {
             flex: 0 0 auto;
-            width: 350px;
+            width: 240px;
             position: relative;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .showcase-phone:hover {
-            transform: translateY(-8px);
-        }
-
-        /* FIX: removed aspect-ratio and object-fit: cover — was causing zoom/crop blurriness */
+        /* Fixed height + object-fit: contain keeps all phones the same size, no cropping */
         .showcase-phone img {
             width: 100%;
-            height: auto;
+            height: 480px;
+            object-fit: contain;
+            object-position: bottom;
             display: block;
-            border-radius: 20px;
-            filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.12));
         }
 
         .showcase-phone-label {
@@ -374,6 +370,17 @@
             text-transform: uppercase;
             color: var(--text-warm);
         }
+
+        /* Removed scale transforms — they were causing the stagger */
+        .showcase-phone:nth-child(1) { transform: scale(1); }
+        .showcase-phone:nth-child(2) { transform: scale(1); }
+        .showcase-phone:nth-child(3) { transform: scale(1); z-index: 2; }
+        .showcase-phone:nth-child(4) { transform: scale(1); }
+
+        .showcase-phone:nth-child(1):hover { transform: translateY(-8px); }
+        .showcase-phone:nth-child(2):hover { transform: translateY(-8px); }
+        .showcase-phone:nth-child(3):hover { transform: translateY(-8px); }
+        .showcase-phone:nth-child(4):hover { transform: translateY(-8px); }
 
         /* ========== PROBLEM ========== */
         .problem {
@@ -733,7 +740,6 @@
             position: relative;
         }
 
-        /* FIX: removed aspect-ratio and object-fit: cover — was causing zoom/crop blurriness */
         .agent-showcase .agent-phone img {
             width: 100%;
             height: auto;
@@ -1155,8 +1161,12 @@
             }
 
             .showcase-phone {
-                width: 200px;
+                width: 180px;
                 flex-shrink: 0;
+            }
+
+            .showcase-phone img {
+                height: 340px;
             }
 
             .showcase-phone:nth-child(1),
@@ -1171,10 +1181,6 @@
             .showcase-phone:nth-child(3):hover,
             .showcase-phone:nth-child(4):hover {
                 transform: scale(1);
-            }
-
-            .showcase-label {
-                font-size: 0.7rem;
             }
 
             .problem, .product-flow {
