@@ -190,6 +190,66 @@
             animation: fadeUp 0.8s ease 0.6s forwards;
         }
 
+        /* Social health score preview in hero */
+        .hero-scores {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.7s forwards;
+        }
+
+        .hero-score-ring {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .hero-score-ring.connect {
+            border: 2px solid var(--coral);
+            color: var(--coral);
+        }
+
+        .hero-score-ring.balance {
+            border: 2px solid var(--peach);
+            color: var(--peach);
+        }
+
+        .hero-score-ring.momentum {
+            border: 2px solid #F5D0A9;
+            color: #F5D0A9;
+        }
+
+        .hero-score-ring .score-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .hero-score-ring .score-label {
+            font-size: 0.48rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+            color: var(--text-warm);
+        }
+
+        .hero-score-caption {
+            font-size: 0.75rem;
+            color: var(--text-warm);
+            letter-spacing: 0.04em;
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.75s forwards;
+        }
+
         .hero-actions {
             display: flex;
             gap: 1rem;
@@ -240,33 +300,6 @@
         .btn-secondary:hover {
             border-color: var(--coral);
             color: var(--coral);
-        }
-
-        .hero-scroll {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 1.2s forwards;
-        }
-
-        .hero-scroll span {
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-warm);
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--coral), transparent);
-            animation: scrollPulse 2s ease infinite;
         }
 
         /* ========== PHILOSOPHY BANNER ========== */
@@ -339,9 +372,9 @@
         .showcase-phones {
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* bottom-aligns all phones to same baseline */
+            align-items: flex-start;
             gap: 1.5rem;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
         }
@@ -353,10 +386,12 @@
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Fixed height + object-fit: contain keeps all phones the same size, no cropping */
+        /* Fixed height + object-fit: contain ensures all phones same size, no cropping */
         .showcase-phone img {
             width: 100%;
-            height: auto;
+            height: 560px;
+            object-fit: contain;
+            object-position: top;
             display: block;
         }
 
@@ -367,18 +402,12 @@
             letter-spacing: 0.06em;
             text-transform: uppercase;
             color: var(--text-warm);
+            text-align: center;
         }
 
-        /* Removed scale transforms — they were causing the stagger */
-        .showcase-phone:nth-child(1) { transform: scale(1); }
-        .showcase-phone:nth-child(2) { transform: scale(1); }
-        .showcase-phone:nth-child(3) { transform: scale(1); z-index: 2; }
-        .showcase-phone:nth-child(4) { transform: scale(1); }
-
-        .showcase-phone:nth-child(1):hover { transform: translateY(-8px); }
-        .showcase-phone:nth-child(2):hover { transform: translateY(-8px); }
-        .showcase-phone:nth-child(3):hover { transform: translateY(-8px); }
-        .showcase-phone:nth-child(4):hover { transform: translateY(-8px); }
+        .showcase-phone:hover {
+            transform: translateY(-8px);
+        }
 
         /* ========== PROBLEM ========== */
         .problem {
@@ -543,44 +572,15 @@
         }
 
         .feature-card p {
-            font-size: 0.92rem;
-            line-height: 1.65;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: rgba(255, 245, 237, 0.55);
         }
 
         .feature-card .feature-desc {
-            font-size: 0.92rem;
-            line-height: 1.65;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: rgba(255, 245, 237, 0.55);
-            margin-bottom: 1rem;
-        }
-
-        .feature-bullets {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .feature-bullets li {
-            font-size: 0.85rem;
-            line-height: 1.55;
-            color: rgba(255, 245, 237, 0.5);
-            padding-left: 1.1rem;
-            position: relative;
-        }
-
-        .feature-bullets li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.5em;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--coral);
-            opacity: 0.6;
         }
 
         .score-items {
@@ -720,10 +720,9 @@
         }
 
         .agent-showcase .agent-text .feature-desc {
-            font-size: 0.92rem;
-            line-height: 1.65;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: rgba(255, 245, 237, 0.55);
-            margin-bottom: 1rem;
         }
 
         .agent-showcase .agent-phones {
@@ -843,7 +842,7 @@
             letter-spacing: 0.02em;
         }
 
-        /* ========== SINGLE/MULTI PLAYER ========== */
+        /* ========== JUST YOU / WITH YOUR CREW ========== */
         .modes {
             padding: 0 2rem 7rem;
             max-width: 1000px;
@@ -1132,8 +1131,13 @@
                 text-align: center;
             }
 
-            .hero-scroll {
-                display: none;
+            .hero-scores {
+                gap: 0.75rem;
+            }
+
+            .hero-score-ring {
+                width: 58px;
+                height: 58px;
             }
 
             .philosophy {
@@ -1159,26 +1163,12 @@
             }
 
             .showcase-phone {
-                width: 180px;
+                width: 200px;
                 flex-shrink: 0;
             }
 
             .showcase-phone img {
-                height: 340px;
-            }
-
-            .showcase-phone:nth-child(1),
-            .showcase-phone:nth-child(2),
-            .showcase-phone:nth-child(3),
-            .showcase-phone:nth-child(4) {
-                transform: scale(1);
-            }
-
-            .showcase-phone:nth-child(1):hover,
-            .showcase-phone:nth-child(2):hover,
-            .showcase-phone:nth-child(3):hover,
-            .showcase-phone:nth-child(4):hover {
-                transform: scale(1);
+                height: 400px;
             }
 
             .problem, .product-flow {
@@ -1240,7 +1230,6 @@
                 justify-content: center;
             }
 
-            /* ===== MOBILE WAITLIST FIX ===== */
             .waitlist {
                 padding: 5rem 1.5rem;
             }
@@ -1265,7 +1254,6 @@
             }
         }
 
-        /* Extra small phones */
         @media (max-width: 380px) {
             .waitlist {
                 padding: 4rem 0.5rem;
@@ -1285,14 +1273,28 @@
     <section class="hero">
         <div class="hero-badge">launching 2026</div>
         <h1>your personal <em>relationship</em> manager.</h1>
-        <p class="hero-sub">dearli is the AI that helps you see your favorite people more. less time planning, more time together.</p>
+        <p class="hero-sub">the app that finally takes the work out of staying close. less coordination, more time with the people who matter.</p>
+
+        <!-- Social health scores teaser -->
+        <div class="hero-scores">
+            <div class="hero-score-ring connect">
+                <span class="score-num">82</span>
+                <span class="score-label">connect</span>
+            </div>
+            <div class="hero-score-ring balance">
+                <span class="score-num">65</span>
+                <span class="score-label">balance</span>
+            </div>
+            <div class="hero-score-ring momentum">
+                <span class="score-num">78</span>
+                <span class="score-label">momentum</span>
+            </div>
+        </div>
+        <p class="hero-score-caption">your social health score — tracked, not guessed</p>
+
         <div class="hero-actions">
             <a href="#waitlist" class="btn-primary">join the waitlist</a>
             <a href="#how" class="btn-secondary">see how it works</a>
-        </div>
-        <div class="hero-scroll">
-            <span>scroll</span>
-            <div class="scroll-line"></div>
         </div>
     </section>
 
@@ -1351,48 +1353,27 @@
                 <div class="feature-card reveal">
                     <div class="feature-icon">📌</div>
                     <h3>pins & crews</h3>
-                    <p class="feature-desc">organize your relationships the way you think about them.</p>
-                    <ul class="feature-bullets">
-                        <li>add individuals as <strong style="color:var(--cream);font-weight:500;">pins</strong> — friends, family, anyone you want to stay close to</li>
-                        <li>group them into <strong style="color:var(--cream);font-weight:500;">crews</strong> — your college friends, your siblings, your work crew</li>
-                        <li>set goals for each relationship, like texting weekly or meeting up monthly</li>
-                        <li>dearli tracks your progress and keeps you accountable</li>
-                    </ul>
+                    <p class="feature-desc">organize the people who matter — as individuals or groups — and set goals for how often you want to show up for them. dearli holds you to it.</p>
                 </div>
+
                 <div class="feature-card reveal">
                     <div class="feature-icon">⚡</div>
                     <h3>sparks</h3>
-                    <p class="feature-desc">initiate a hangout and let the AI handle the rest.</p>
-                    <ul class="feature-bullets">
-                        <li>dearli checks your calendar, your interests, and the other person's availability</li>
-                        <li>suggests a specific date, place, and activity</li>
-                        <li>send the invite in one tap</li>
-                        <li>no more 27-message group threads that end with no decision</li>
-                    </ul>
+                    <p class="feature-desc">want to see someone? one tap. dearli checks your calendars, picks a place you'll both love, and sends the invite. no 27-message thread required.</p>
                 </div>
+
                 <div class="feature-card reveal">
                     <div class="feature-icon">🗺️</div>
                     <h3>bucket lists</h3>
-                    <p class="feature-desc">save the things you actually want to do — then do them.</p>
-                    <ul class="feature-bullets">
-                        <li>add specific restaurants, activities, and places you want to try</li>
-                        <li>dearli smart-matches them with people in your circle who want to go too</li>
-                        <li>prompts the right time and the right person to make it happen</li>
-                    </ul>
+                    <p class="feature-desc">save the places and things you want to do, and dearli matches them to the right person at the right time — so they actually happen.</p>
                 </div>
 
-                <!-- AGENT SHOWCASE WITH SCREENSHOTS -->
+                <!-- AGENT SHOWCASE -->
                 <div class="agent-showcase reveal">
                     <div class="agent-text">
                         <div class="feature-icon">🤖</div>
                         <h3>your AI agent</h3>
-                        <p class="feature-desc">the most advanced way to coordinate. dearli's agent finds a match, picks a spot, and builds a complete plan. one tap to confirm.</p>
-                        <ul class="feature-bullets">
-                            <li>daily briefings on who to see and what's coming up</li>
-                            <li>venue suggestions based on your preferences and location</li>
-                            <li>pre-hangout briefs so you show up like the friend you want to be</li>
-                            <li>when both people use dearli, agents coordinate directly — zero back-and-forth</li>
-                        </ul>
+                        <p class="feature-desc">every morning, dearli surfaces who needs attention and builds a complete plan — the person, the place, the time. you just confirm. when both people use dearli, the agents coordinate directly and skip the back-and-forth entirely.</p>
                     </div>
                     <div class="agent-phones">
                         <div class="agent-phone">
@@ -1405,7 +1386,7 @@
                     <div class="feature-text">
                         <div class="feature-icon">💛</div>
                         <h3>your social health scores</h3>
-                        <p class="feature-desc">think of it as an apple watch for your relationships. three individual scores that show you exactly where you stand.</p>
+                        <p class="feature-desc">think of it as an apple watch for your relationships. three scores that show you exactly where you stand — and where things are quietly drifting.</p>
                         <ul class="score-items">
                             <li><strong>connect</strong> — how often you're actually seeing and talking to your people</li>
                             <li><strong>balance</strong> — are you spreading your time across all the relationships that matter?</li>
@@ -1476,20 +1457,18 @@
         </div>
     </section>
 
-    <!-- SINGLE/MULTI PLAYER -->
+    <!-- JUST YOU / WITH YOUR CREW -->
     <section class="modes">
         <div class="modes-grid">
             <div class="mode-card single reveal">
-                <div class="mode-tag">single-player mode</div>
+                <div class="mode-tag">just you</div>
                 <h3>valuable from day one.</h3>
-                <p>you don't need anyone else to download the app.</p>
-                <p style="margin-top:0.75rem;">import your contacts. set goals. log interactions. dearli becomes your personal relationship dashboard — drafting ready-to-send texts when someone's overdue.</p>
+                <p>you don't need anyone else to download the app. import your contacts, set goals, log interactions. dearli becomes your personal relationship dashboard — and drafts ready-to-send texts when someone's overdue.</p>
             </div>
             <div class="mode-card multi reveal">
-                <div class="mode-tag">multiplayer mode</div>
-                <h3>where the magic happens.</h3>
-                <p>when others in your circle join, dearli compounds.</p>
-                <p style="margin-top:0.75rem;">agents coordinate across the group. availability syncs automatically. crew-level planning becomes effortless. the product is measurably better when your whole circle is on it.</p>
+                <div class="mode-tag">with your crew</div>
+                <h3>when your friends join, dearli plans for all of you.</h3>
+                <p>availability syncs automatically. agents coordinate across the group. crew-level planning becomes effortless. the more of your circle that's on it, the less work it takes for everyone.</p>
             </div>
         </div>
     </section>
@@ -1541,12 +1520,12 @@
             <p class="reveal">join the waitlist for early access. we'll share occasional updates — nothing spammy, just things worth reading.</p>
             <div class="reveal" id="waitlist-form">
                 <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-                <iframe 
-                    src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb" 
-                    class="beehiiv-embed" 
-                    data-test-id="beehiiv-embed" 
-                    frameborder="0" 
-                    scrolling="no" 
+                <iframe
+                    src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb"
+                    class="beehiiv-embed"
+                    data-test-id="beehiiv-embed"
+                    frameborder="0"
+                    scrolling="no"
                     style="width: 100%; max-width: 480px; height: 155px; border-radius: 0px; background-color: transparent;"
                 ></iframe>
             </div>
@@ -1569,7 +1548,6 @@
     </footer>
 
     <script>
-        // Scroll-triggered reveals
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1580,12 +1558,10 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Nav scroll state
         window.addEventListener('scroll', () => {
             document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 e.preventDefault();
