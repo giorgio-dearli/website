@@ -1547,7 +1547,7 @@
                 <div class="footer-tagline">your personal relationship manager</div>
             </div>
             <div class="footer-links">
-                <a id="footer-email" href="#"></a>
+                <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;" style="font-size:1.1rem;color:rgba(255,245,237,0.7);font-weight:400;text-decoration:none;transition:color 0.3s ease;">&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;</a>
             </div>
             <div class="footer-copy">&copy; 2026 shaman ventures llc. all rights reserved.</div>
         </div>
@@ -1563,17 +1563,6 @@
         }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
 
         document.body.classList.add('js-reveal');
-
-        // Build email from char codes so Cloudflare scanner can't detect or obfuscate it
-        (function() {
-            var el = document.getElementById('footer-email');
-            if (!el) return;
-            var p = [104,101,108,108,111,64,100,101,97,114,108,105,46,115,111];
-            var e = p.map(function(c){return String.fromCharCode(c);}).join('');
-            el.href = 'mail' + 'to:' + e;
-            el.textContent = e;
-            el.style.cssText = 'font-size:1.1rem;color:rgba(255,245,237,0.7);font-weight:400;text-decoration:none;transition:color 0.3s ease;';
-        })();
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         window.addEventListener('scroll', () => {
