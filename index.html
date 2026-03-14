@@ -203,12 +203,14 @@
         .hero-score-ring {
             width: 100px;
             height: 100px;
+            aspect-ratio: 1;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             position: relative;
+            flex-shrink: 0;
         }
 
         .hero-score-ring.connect {
@@ -222,8 +224,8 @@
         }
 
         .hero-score-ring.momentum {
-            border: 2px solid #F5D0A9;
-            color: #F5D0A9;
+            border: 2px solid #D4A56A;
+            color: #D4A56A;
         }
 
         .hero-score-ring .score-num {
@@ -370,9 +372,8 @@
         }
 
         .showcase-phones {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             max-width: 1500px;
             margin: 0 auto;
@@ -380,16 +381,14 @@
         }
 
         .showcase-phone {
-            flex: 0 0 auto;
-            width: 380px;
             position: relative;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* All images are same dimensions — just let them render naturally */
         .showcase-phone img {
             width: 100%;
-            height: auto;
+            aspect-ratio: 1977 / 3933;
+            object-fit: cover;
             display: block;
         }
 
@@ -644,11 +643,13 @@
             justify-content: center;
             gap: 1.25rem;
             margin-bottom: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .score-ring-small {
             width: 90px;
             height: 90px;
+            aspect-ratio: 1;
             border-radius: 50%;
             border: 2.5px solid rgba(255, 255, 255, 0.08);
             position: relative;
@@ -656,6 +657,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         .score-ring-small .score-num {
@@ -733,7 +735,7 @@
         }
 
         .agent-showcase .agent-phone {
-            width: 200px;
+            width: 260px;
             position: relative;
         }
 
@@ -1111,6 +1113,36 @@
         }
 
         /* ========== RESPONSIVE ========== */
+        @media (max-width: 1100px) {
+            .showcase-phones {
+                gap: 1rem;
+            }
+
+            .agent-showcase {
+                flex-direction: column-reverse;
+                gap: 2rem;
+            }
+
+            .agent-showcase .agent-phones {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .agent-showcase .agent-phone {
+                width: 160px;
+            }
+
+            .feature-highlight {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .feature-highlight .feature-visual {
+                flex: initial;
+                width: 100%;
+            }
+        }
+
         @media (max-width: 768px) {
             nav {
                 padding: 1rem 1.25rem;
@@ -1139,11 +1171,20 @@
 
             .hero-scores {
                 gap: 0.75rem;
+                flex-wrap: wrap;
             }
 
             .hero-score-ring {
-                width: 58px;
-                height: 58px;
+                width: 80px;
+                height: 80px;
+            }
+
+            .hero-score-ring .score-num {
+                font-size: 1.5rem;
+            }
+
+            .hero-score-ring .score-label {
+                font-size: 0.6rem;
             }
 
             .philosophy {
@@ -1155,6 +1196,8 @@
             }
 
             .showcase-phones {
+                display: flex;
+                grid-template-columns: none;
                 gap: 0.5rem;
                 padding: 0;
                 overflow-x: auto;
@@ -1169,12 +1212,8 @@
             }
 
             .showcase-phone {
-                width: 240px;
-                flex-shrink: 0;
-            }
-
-            .showcase-phone img {
-                height: auto;
+                flex: 0 0 240px;
+                max-width: 240px;
             }
 
             .problem, .product-flow {
@@ -1206,7 +1245,7 @@
             }
 
             .agent-showcase .agent-phone {
-                width: 120px;
+                width: 240px;
             }
 
             .modes {
@@ -1547,7 +1586,7 @@
                 <div class="footer-tagline">your personal relationship manager</div>
             </div>
             <div class="footer-links">
-                <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;" style="font-size:1.1rem;color:rgba(255,245,237,0.7);font-weight:400;text-decoration:none;transition:color 0.3s ease;">&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;</a>
+                <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;">&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;</a>
             </div>
             <div class="footer-copy">&copy; 2026 shaman ventures llc. all rights reserved.</div>
         </div>
@@ -1566,4 +1605,8 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         window.addEventListener('scroll', () => {
-            document.querySelector('nav').classList.toggle('scrolle
+            document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
