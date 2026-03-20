@@ -114,28 +114,82 @@
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        /* ========== CONSTELLATION NETWORK ========== */
+        .dot-canvas {
             position: absolute;
-            top: -30%;
-            right: -20%;
-            width: 70vw;
-            height: 70vw;
-            background: radial-gradient(circle, rgba(240, 166, 114, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
+            inset: 0;
             pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
         }
 
-        .hero::after {
+        /* Score ring subtitles — tooltip bubble */
+        .hero-score-ring .score-sub {
+            position: absolute;
+            top: 115px;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px) scale(0.95);
+            font-size: 0.78rem;
+            letter-spacing: 0.01em;
+            color: var(--charcoal);
+            text-align: center;
+            width: 220px;
+            line-height: 1.55;
+            text-transform: none;
+            font-weight: 400;
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            background: white;
+            padding: 1rem 1.2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(107, 92, 82, 0.12), 0 1px 4px rgba(0,0,0,0.06);
+            z-index: 10;
+        }
+
+        /* Bubble arrow pointing up */
+        .hero-score-ring .score-sub::before {
             content: '';
             position: absolute;
-            bottom: -10%;
-            left: -15%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(217, 79, 43, 0.06) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: white;
+            box-shadow: -2px -2px 4px rgba(107, 92, 82, 0.06);
+        }
+
+        .hero-score-ring.active {
+            z-index: 20;
+        }
+
+        .hero-score-ring.active .score-sub {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Caption + hint fade out when a ring is active */
+        .hero-score-caption,
+        .score-hint {
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-scores.has-active ~ .hero-score-caption,
+        .hero-scores.has-active ~ .score-hint {
+            opacity: 0 !important;
+        }
+
+        /* Tap hint under scores */
+        .score-hint {
+            font-size: 0.75rem;
+            color: var(--text-warm);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 1s forwards;
+            letter-spacing: 0.03em;
+            margin-top: -1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .hero-badge {
@@ -193,9 +247,9 @@
         /* Social health score preview in hero */
         .hero-scores {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             justify-content: center;
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
             opacity: 0;
             animation: fadeUp 0.8s ease 0.7s forwards;
         }
@@ -211,21 +265,55 @@
             flex-direction: column;
             position: relative;
             flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+        }
+
+        /* Radiating pulse ring */
+        .hero-score-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+            animation: ringPulse 2.5s ease-out infinite;
+        }
+
+        .hero-score-ring:nth-child(2)::before { animation-delay: 0.8s; }
+        .hero-score-ring:nth-child(3)::before { animation-delay: 1.6s; }
+
+        .hero-score-ring:hover {
+            transform: scale(1.12);
+        }
+
+        .hero-score-ring.active::before {
+            animation: none;
+            opacity: 0;
         }
 
         .hero-score-ring.connect {
             border: 2px solid var(--coral);
             color: var(--coral);
         }
+        .hero-score-ring.connect:hover {
+            box-shadow: 0 0 25px rgba(232, 103, 61, 0.25);
+        }
 
         .hero-score-ring.balance {
             border: 2px solid var(--peach);
             color: var(--peach);
         }
+        .hero-score-ring.balance:hover {
+            box-shadow: 0 0 25px rgba(240, 166, 114, 0.25);
+        }
 
         .hero-score-ring.momentum {
             border: 2px solid #D4A56A;
             color: #D4A56A;
+        }
+        .hero-score-ring.momentum:hover {
+            box-shadow: 0 0 25px rgba(212, 165, 106, 0.25);
         }
 
         .hero-score-ring .score-num {
@@ -304,12 +392,22 @@
             color: var(--coral);
         }
 
-        /* ========== PHILOSOPHY BANNER ========== */
+        /* ========== PHILOSOPHY BANNER (scroll-driven word reveal) ========== */
+        .philosophy-wrap {
+            position: relative;
+            height: 500vh;
+        }
+
         .philosophy {
             background: linear-gradient(135deg, var(--coral-deep), var(--coral), var(--peach));
-            padding: 6rem 4rem;
+            padding: 0 4rem;
             text-align: center;
-            position: relative;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
 
@@ -321,21 +419,82 @@
             opacity: 0.5;
         }
 
-        .philosophy blockquote {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(1.6rem, 4vw, 2.8rem);
-            font-weight: 400;
-            line-height: 1.35;
-            color: var(--cream);
-            max-width: 1000px;
-            margin: 0 auto;
+        .phil-content {
             position: relative;
-            letter-spacing: -0.01em;
+            max-width: 900px;
+            z-index: 2;
         }
 
-        .philosophy blockquote em {
+        .phil-line {
+            display: block;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            color: var(--cream);
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+        }
+
+        .phil-line:last-child { margin-bottom: 0; }
+
+        .phil-line.line-big {
+            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+        }
+
+        .phil-line.line-med {
+            font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+        }
+
+        .phil-line.line-turn {
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .phil-line.line-punch {
+            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+        }
+
+        .phil-line.line-punch em {
             font-style: italic;
-            opacity: 0.9;
+        }
+
+        /* Individual word spans */
+        .phil-line .pw {
+            display: inline-block;
+            opacity: 0.15;
+            transition: opacity 0.4s ease;
+        }
+
+        .phil-line .pw.revealed {
+            opacity: 1;
+        }
+
+        /* Highlighted key words — white + underline wipe */
+        .phil-line .pw.highlight {
+            position: relative;
+        }
+
+        .phil-line .pw.highlight.revealed {
+            color: #fff;
+        }
+
+        .phil-line .pw.highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: -3px;
+            right: -3px;
+            height: 35%;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 3px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+
+        .phil-line .pw.highlight.revealed::after {
+            transform: scaleX(1);
         }
 
         /* ========== PRODUCT SHOWCASE ========== */
@@ -413,6 +572,8 @@
             padding: 7rem 2rem;
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
         .section-label {
@@ -752,6 +913,8 @@
             padding: 7rem 2rem;
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
         .product-flow h2 {
@@ -849,6 +1012,8 @@
             padding: 0 2rem 7rem;
             max-width: 1000px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
         .modes-grid {
@@ -905,6 +1070,8 @@
         .for-who {
             padding: 7rem 2rem;
             background: var(--cream);
+            position: relative;
+            overflow: hidden;
         }
 
         .for-who-inner {
@@ -1084,6 +1251,116 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        /* ========== 1. Step marker ring-fill animation ========== */
+        .step-marker {
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-marker svg {
+            position: absolute;
+            inset: -3px;
+            width: calc(100% + 6px);
+            height: calc(100% + 6px);
+            transform: rotate(-90deg);
+        }
+
+        .step-marker svg circle {
+            fill: none;
+            stroke: var(--peach);
+            stroke-width: 2;
+            stroke-dasharray: 160;
+            stroke-dashoffset: 160;
+            transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .flow-step.visible .step-marker svg circle {
+            stroke-dashoffset: 0;
+        }
+
+        /* ========== 2. Persona arrow draw-in ========== */
+        .persona-marker {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-marker::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--cream-light);
+            transform: translateX(0);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+
+        .persona.visible .persona-marker::after {
+            transform: translateX(100%);
+        }
+
+        /* ========== 3. Mode cards tilt toward each other ========== */
+        .mode-card {
+            transition: all 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .js-reveal .mode-card.single {
+            transform: rotate(1deg) translateX(-8px);
+            opacity: 0;
+        }
+
+        .js-reveal .mode-card.multi {
+            transform: rotate(-1deg) translateX(8px);
+            opacity: 0;
+        }
+
+        .js-reveal .mode-card.single.visible {
+            transform: rotate(0) translateX(0);
+            opacity: 1;
+        }
+
+        .js-reveal .mode-card.multi.visible {
+            transform: rotate(0) translateX(0);
+            opacity: 1;
+        }
+
+        .mode-card.single:hover {
+            transform: rotate(0.5deg) translateY(-4px) !important;
+        }
+
+        .mode-card.multi:hover {
+            transform: rotate(-0.5deg) translateY(-4px) !important;
+        }
+
+        /* ========== 4. Stat counter ========== */
+        .stat-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: inherit;
+            font-weight: inherit;
+            display: inline;
+        }
+
+        /* ========== 5. Waitlist CTA pulse ========== */
+        .waitlist-inner {
+            position: relative;
+        }
+
+        .waitlist-pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            border: 2px solid var(--coral);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .waitlist-pulse.animate {
+            animation: waitlistPing 1.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+        }
+
         /* ========== ANIMATIONS ========== */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -1094,6 +1371,18 @@
             0%, 100% { opacity: 0.3; transform: scaleY(1); }
             50% { opacity: 0.8; transform: scaleY(1.2); }
         }
+
+        @keyframes ringPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.6); }
+        }
+
+        @keyframes waitlistPing {
+            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        /* (constellation animations handled by JS) */
 
         .reveal {
             opacity: 1;
@@ -1144,6 +1433,9 @@
         }
 
         @media (max-width: 768px) {
+            /* Fewer dots on mobile */
+            .dot-canvas { opacity: 0.4; }
+
             nav {
                 padding: 1rem 1.25rem;
             }
@@ -1179,6 +1471,12 @@
                 height: 80px;
             }
 
+            .hero-score-ring .score-sub {
+                top: 95px;
+                width: 200px;
+                font-size: 0.7rem;
+            }
+
             .hero-score-ring .score-num {
                 font-size: 1.5rem;
             }
@@ -1188,7 +1486,11 @@
             }
 
             .philosophy {
-                padding: 3.5rem 1.5rem;
+                padding: 0 1.5rem;
+            }
+
+            .phil-content {
+                padding: 0 0.5rem;
             }
 
             .product-showcase {
@@ -1316,6 +1618,7 @@
 
     <!-- HERO -->
     <section class="hero">
+        <canvas class="dot-canvas" data-dots="24" data-color="coral" data-opacity="0.7" data-line-opacity="0.4"></canvas>
         <div class="hero-badge">launching 2026</div>
         <h1>your personal <em>relationship</em> manager.</h1>
         <p class="hero-sub">the app that finally takes the work out of staying close. less coordination, more time with the people who matter.</p>
@@ -1325,17 +1628,21 @@
             <div class="hero-score-ring connect">
                 <span class="score-num">82</span>
                 <span class="score-label">connect</span>
+                <span class="score-sub">are you actually showing up — calls, hangouts, real presence? dearli tracks the interactions that matter, not just the ones that are easy.</span>
             </div>
             <div class="hero-score-ring balance">
                 <span class="score-num">65</span>
                 <span class="score-label">balance</span>
+                <span class="score-sub">is your time split the way you want across friends, family & circles? you set the goals — dearli shows you where the gaps are.</span>
             </div>
             <div class="hero-score-ring momentum">
                 <span class="score-num">78</span>
                 <span class="score-label">momentum</span>
+                <span class="score-sub">are your relationships holding steady or quietly drifting? momentum tracks the trend — so you can catch the slow fade before it becomes a gap.</span>
             </div>
         </div>
         <p class="hero-score-caption">your social health score — tracked, not guessed</p>
+        <p class="score-hint" id="score-hint">tap each ring to learn more</p>
 
         <div class="hero-actions">
             <a href="#waitlist" class="btn-primary">join the waitlist</a>
@@ -1344,14 +1651,23 @@
     </section>
 
     <!-- PHILOSOPHY -->
-    <section class="philosophy">
-        <blockquote class="reveal">
-            your relationships predict your health and longevity as much as exercise, diet, and sleep. we have apps for all of those. but for the one that matters just as much? <em>no tracking. no tools.</em> no visibility into whether things are getting better or quietly getting worse.
-        </blockquote>
-    </section>
+    <div class="philosophy-wrap">
+        <section class="philosophy" id="philosophy">
+            <canvas class="dot-canvas" data-dots="14" data-color="cream"></canvas>
+            <div class="phil-content">
+                <span class="phil-line line-big" data-highlight="relationships,health,longevity">your relationships predict your health and longevity as much as exercise, diet, and sleep.</span>
+                <span class="phil-line line-med">we have apps for all of those.</span>
+                <span class="phil-line line-turn" data-highlight="social,health">but for your social health — the thing that matters just as much?</span>
+                <span class="phil-line line-punch" data-highlight="tracking.,tools.,visibility">
+                    <em>no tracking. no tools.</em> no visibility into whether things are getting better or quietly getting worse.
+                </span>
+            </div>
+        </section>
+    </div>
 
     <!-- PRODUCT SHOWCASE -->
     <section class="product-showcase">
+        <canvas class="dot-canvas" data-dots="10" data-color="peach"></canvas>
         <div class="section-label reveal">the product</div>
         <h2 class="reveal">this is dearli.</h2>
         <p class="showcase-sub reveal">four core tabs. one mission. see your people more.</p>
@@ -1377,11 +1693,12 @@
 
     <!-- PROBLEM -->
     <section class="problem">
+        <canvas class="dot-canvas" data-dots="8" data-color="rose"></canvas>
         <div class="section-label reveal">the problem</div>
         <h2 class="reveal">the people you care about most are quietly becoming names on a screen.</h2>
         <p class="reveal">growing up, seeing your people was effortless. you were close by, your time was your own, and life hadn't piled on yet. adulthood changed all of that. you're busier, more drained, more scattered, and nothing stepped in to replace what you lost.</p>
         <div class="stat-callout reveal">
-            <p>the surgeon general declared loneliness a <strong>public health epidemic</strong> with health impacts on par with smoking 15 cigarettes a day.</p>
+            <p>the surgeon general declared loneliness a <strong>public health epidemic</strong> with health impacts on par with smoking <strong><span class="stat-num" data-target="15">0</span></strong> cigarettes a day.</p>
         </div>
         <p class="reveal">and social media has made it worse. you see the people you love through stories and feeds every day, creating an illusion of closeness that masks how disconnected you actually are. you feel like you're keeping up because you liked their post — but you haven't sat across from your best friend in months, you keep meaning to call your parents, and the last real conversation with your partner was... when?</p>
         <p class="reveal">the caring was never the problem. the coordination was. there's nothing in your life designed to help you maintain your most important relationships. until now.</p>
@@ -1389,6 +1706,7 @@
 
     <!-- HOW IT WORKS -->
     <section class="how-it-works" id="how">
+        <canvas class="dot-canvas" data-dots="12" data-color="coral"></canvas>
         <div class="how-inner">
             <div class="section-label reveal">meet dearli</div>
             <h2 class="reveal">an AI built around the people who matter.</h2>
@@ -1433,9 +1751,9 @@
                         <h3>your social health scores</h3>
                         <p class="feature-desc">think of it as an apple watch for your relationships. three scores that show you exactly where you stand — and where things are quietly drifting.</p>
                         <ul class="score-items">
-                            <li><strong>connect</strong> — how often you're actually seeing and talking to your people</li>
-                            <li><strong>balance</strong> — are you spreading your time across all the relationships that matter?</li>
-                            <li><strong>momentum</strong> — are things trending up or quietly drifting?</li>
+                            <li><strong>connect</strong> — how often you're actually showing up for the people who matter — calls, hangouts, quality time</li>
+                            <li><strong>balance</strong> — is your time split the way you want it? 60% friends, 35% family, 5% colleagues — you set the goals</li>
+                            <li><strong>momentum</strong> — the trend line. are your relationships growing closer over time, or quietly drifting apart?</li>
                         </ul>
                     </div>
                     <div class="feature-visual">
@@ -1461,13 +1779,14 @@
 
     <!-- PRODUCT FLOW -->
     <section class="product-flow">
+        <canvas class="dot-canvas" data-dots="10" data-color="coral"></canvas>
         <div class="section-label reveal">the daily experience</div>
         <h2 class="reveal">open the app. know exactly what to do.</h2>
         <p class="section-intro reveal">dearli is proactive, not reactive. every day, it shows you who needs attention and gives you a clear action, not a vague reminder.</p>
 
         <div class="flow-steps">
             <div class="flow-step reveal">
-                <div class="step-marker">1</div>
+                <div class="step-marker">1<svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="25"/></svg></div>
                 <div class="step-content">
                     <h3>today's focus</h3>
                     <p>you open dearli and immediately see which relationships need attention most.</p>
@@ -1475,7 +1794,7 @@
                 </div>
             </div>
             <div class="flow-step reveal">
-                <div class="step-marker">2</div>
+                <div class="step-marker">2<svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="25"/></svg></div>
                 <div class="step-content">
                     <h3>dearli suggests a plan</h3>
                     <p>not a vague "you should reach out" reminder. a specific plan.</p>
@@ -1484,7 +1803,7 @@
                 </div>
             </div>
             <div class="flow-step reveal">
-                <div class="step-marker">3</div>
+                <div class="step-marker">3<svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="25"/></svg></div>
                 <div class="step-content">
                     <h3>show up well. watch it compound.</h3>
                     <p>before you meet up, dearli briefs you — what's going on in their life, what to follow up on, anything you should know. afterward, your social health scores update. every interaction compounds. the more you use dearli, the less effort staying close takes.</p>
@@ -1495,6 +1814,7 @@
 
     <!-- JUST YOU / WITH YOUR CREW -->
     <section class="modes">
+        <canvas class="dot-canvas" data-dots="8" data-color="gold"></canvas>
         <div class="modes-grid">
             <div class="mode-card single reveal">
                 <div class="mode-tag">just you</div>
@@ -1511,6 +1831,7 @@
 
     <!-- FOR WHO -->
     <section class="for-who">
+        <canvas class="dot-canvas" data-dots="10" data-color="peach"></canvas>
         <div class="for-who-inner">
             <div class="section-label reveal">who it's for</div>
             <h2 class="reveal">for anyone who cares more than their calendar shows.</h2>
@@ -1550,7 +1871,9 @@
 
     <!-- WAITLIST -->
     <section class="waitlist" id="waitlist">
+        <canvas class="dot-canvas" data-dots="10" data-color="cream"></canvas>
         <div class="waitlist-inner">
+            <div class="waitlist-pulse"></div>
             <div class="section-label reveal">launching 2026</div>
             <h2 class="reveal">more of the moments that matter.</h2>
             <p class="reveal">join the waitlist for early access. we'll share occasional updates — nothing spammy, just things worth reading.</p>
@@ -1584,6 +1907,7 @@
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // --- Scroll reveal ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1598,6 +1922,273 @@
         window.addEventListener('scroll', () => {
             document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 50);
         });
+
+        // --- Constellation dot network ---
+        const COLORS = {
+            coral:  [232,103,61],
+            peach:  [240,166,114],
+            rose:   [200,120,140],
+            gold:   [212,165,106],
+            cream:  [255,245,237],
+        };
+
+        function initDotCanvas(canvas) {
+            const ctx = canvas.getContext('2d');
+            const numDots = parseInt(canvas.dataset.dots) || 12;
+            const rgb = COLORS[canvas.dataset.color] || COLORS.coral;
+            const dotOpacity = parseFloat(canvas.dataset.opacity) || 0.4;
+            const lineOpacity = parseFloat(canvas.dataset.lineOpacity) || 0.25;
+            let dots = [], w, h, animId, connectDist, dpr;
+            let isVisible = false;
+
+            function resize() {
+                const section = canvas.parentElement;
+                dpr = window.devicePixelRatio || 1;
+                w = section.offsetWidth;
+                h = section.offsetHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+                ctx.scale(dpr, dpr);
+                connectDist = Math.max(150, Math.min(w, h) * 0.35);
+            }
+
+            function seed() {
+                dots = [];
+                var edgeW = w * 0.22; // dots stay in outer 22% on each side
+                for (let i = 0; i < numDots; i++) {
+                    // Half on the left edge, half on the right
+                    var side = i < numDots / 2 ? 'left' : 'right';
+                    var x = side === 'left'
+                        ? Math.random() * edgeW
+                        : w - Math.random() * edgeW;
+                    dots.push({
+                        x: x,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        r: 3 + Math.random() * 2,
+                        side: side,
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                ctx.clearRect(0, 0, w, h);
+
+                // Draw lines first
+                for (let i = 0; i < dots.length; i++) {
+                    for (let j = i + 1; j < dots.length; j++) {
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < connectDist) {
+                            const fade = 1 - dist / connectDist;
+                            ctx.beginPath();
+                            ctx.moveTo(dots[i].x, dots[i].y);
+                            ctx.lineTo(dots[j].x, dots[j].y);
+                            ctx.strokeStyle = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + (lineOpacity * fade) + ')';
+                            ctx.lineWidth = 1.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Draw dots
+                for (const d of dots) {
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + dotOpacity + ')';
+                    ctx.fill();
+                }
+            }
+
+            function update() {
+                var edgeW = w * 0.22;
+                for (const d of dots) {
+                    d.x += d.vx;
+                    d.y += d.vy;
+                    // Keep dots in their edge zone
+                    if (d.side === 'left') {
+                        if (d.x < 0 || d.x > edgeW) d.vx *= -1;
+                        d.x = Math.max(0, Math.min(edgeW, d.x));
+                    } else {
+                        if (d.x < w - edgeW || d.x > w) d.vx *= -1;
+                        d.x = Math.max(w - edgeW, Math.min(w, d.x));
+                    }
+                    if (d.y < 0 || d.y > h) d.vy *= -1;
+                    d.y = Math.max(0, Math.min(h, d.y));
+                }
+            }
+
+            function loop() {
+                if (!isVisible) { animId = null; return; }
+                update();
+                draw();
+                animId = requestAnimationFrame(loop);
+            }
+
+            const visObs = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    isVisible = e.isIntersecting;
+                    if (isVisible && !animId) loop();
+                });
+            }, { threshold: 0 });
+            visObs.observe(canvas.parentElement);
+
+            resize();
+            seed();
+            if (isVisible) loop();
+
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => { resize(); seed(); }, 200);
+            });
+        }
+
+        document.querySelectorAll('.dot-canvas').forEach(initDotCanvas);
+
+        // --- Interactive score rings ---
+        const scoresContainer = document.querySelector('.hero-scores');
+        document.querySelectorAll('.hero-score-ring').forEach(ring => {
+            ring.addEventListener('click', () => {
+                const wasActive = ring.classList.contains('active');
+                document.querySelectorAll('.hero-score-ring').forEach(r => r.classList.remove('active'));
+                if (!wasActive) {
+                    ring.classList.add('active');
+                    scoresContainer.classList.add('has-active');
+                } else {
+                    scoresContainer.classList.remove('has-active');
+                }
+            });
+        });
+
+        // --- Philosophy: word-by-word scroll reveal + shifting background ---
+        (function() {
+            const wrap = document.querySelector('.philosophy-wrap');
+            if (!wrap) return;
+            const section = wrap.querySelector('.philosophy');
+
+            // Background color stops: warm coral → deep charcoal-coral
+            // Start:  D94F2B, E8673D, F0A672 (current gradient)
+            // End:    1A1A1A (charcoal) center, with deep warm edges
+            const colorStops = [
+                { r1: [217,79,43],  r2: [232,103,61], r3: [240,166,114] },  // 0% — warm coral
+                { r1: [180,60,50],  r2: [160,70,60],  r3: [200,120,100] },  // 50% — muted
+                { r1: [45,30,30],   r2: [35,25,25],   r3: [60,40,40] },     // 100% — near black
+            ];
+
+            function lerpColor(a, b, t) {
+                return [
+                    Math.round(a[0] + (b[0] - a[0]) * t),
+                    Math.round(a[1] + (b[1] - a[1]) * t),
+                    Math.round(a[2] + (b[2] - a[2]) * t),
+                ];
+            }
+
+            function getGradient(p) {
+                let idx, t;
+                if (p < 0.5) { idx = 0; t = p / 0.5; }
+                else { idx = 1; t = (p - 0.5) / 0.5; }
+                const from = colorStops[idx], to = colorStops[idx + 1];
+                const c1 = lerpColor(from.r1, to.r1, t);
+                const c2 = lerpColor(from.r2, to.r2, t);
+                const c3 = lerpColor(from.r3, to.r3, t);
+                return 'linear-gradient(135deg, rgb(' + c1 + '), rgb(' + c2 + '), rgb(' + c3 + '))';
+            }
+
+            const lines = wrap.querySelectorAll('.phil-line');
+            const allWords = [];
+
+            lines.forEach(line => {
+                const highlights = (line.dataset.highlight || '').split(',').map(s => s.trim().toLowerCase().replace(/[^a-z]/g, ''));
+                const temp = document.createElement('div');
+                temp.innerHTML = line.innerHTML;
+                const text = temp.textContent;
+                const words = text.split(/\s+/).filter(w => w.length > 0);
+
+                let html = '';
+                words.forEach(word => {
+                    const lower = word.toLowerCase().replace(/[^a-z]/g, '');
+                    let isHL = false;
+                    for (const phrase of highlights) {
+                        if (phrase === lower && lower.length > 2) { isHL = true; break; }
+                    }
+                    html += '<span class="pw' + (isHL ? ' highlight' : '') + '">' + word + '</span> ';
+                });
+
+                line.innerHTML = html;
+                line.querySelectorAll('.pw').forEach(pw => allWords.push(pw));
+            });
+
+            const total = allWords.length;
+
+            function onScroll() {
+                const rect = wrap.getBoundingClientRect();
+                const scrollH = wrap.offsetHeight - window.innerHeight;
+                const p = Math.max(0, Math.min(1, -rect.top / scrollH));
+                const revealUpTo = Math.floor(Math.max(0, Math.min(1, (p - 0.05) / 0.85)) * total);
+
+                for (let i = 0; i < total; i++) {
+                    allWords[i].classList.toggle('revealed', i <= revealUpTo);
+                }
+
+                section.style.background = getGradient(p);
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // --- 4. Stat counter animation (resets on scroll away) ---
+        document.querySelectorAll('.stat-num').forEach(el => {
+            const target = parseInt(el.dataset.target) || 0;
+            let animating = false;
+
+            new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    if (!animating) {
+                        animating = true;
+                        const duration = 800;
+                        const start = performance.now();
+                        function tick(now) {
+                            const p = Math.min(1, (now - start) / duration);
+                            const ease = 1 - (1 - p) * (1 - p);
+                            el.textContent = Math.round(ease * target);
+                            if (p < 1) requestAnimationFrame(tick);
+                            else animating = false;
+                        }
+                        requestAnimationFrame(tick);
+                    }
+                } else {
+                    el.textContent = '0';
+                    animating = false;
+                }
+            }, { threshold: 0.5 }).observe(el);
+        });
+
+        // --- 5. Waitlist CTA pulse ---
+        (function() {
+            const pulse = document.querySelector('.waitlist-pulse');
+            if (!pulse) return;
+            let fired = false;
+
+            new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !fired) {
+                    fired = true;
+                    pulse.classList.add('animate');
+                    // Fire a second ring after a delay
+                    setTimeout(() => {
+                        const p2 = pulse.cloneNode();
+                        pulse.parentElement.appendChild(p2);
+                        p2.classList.add('animate');
+                    }, 400);
+                }
+            }, { threshold: 0.3 }).observe(pulse.parentElement);
+        })();
     </script>
 </body>
 </html>
