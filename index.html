@@ -408,22 +408,12 @@
             color: var(--coral);
         }
 
-        /* ========== PHILOSOPHY BANNER (scroll-driven word reveal) ========== */
-        .philosophy-wrap {
-            position: relative;
-            height: 500vh;
-        }
-
+        /* ========== PHILOSOPHY BANNER ========== */
         .philosophy {
             background: linear-gradient(135deg, var(--coral-deep), var(--coral), var(--peach));
-            padding: 0 4rem;
+            padding: 6rem 4rem;
             text-align: center;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
             overflow: hidden;
         }
 
@@ -435,82 +425,21 @@
             opacity: 0.5;
         }
 
-        .phil-content {
-            position: relative;
-            max-width: 900px;
-            z-index: 2;
-        }
-
-        .phil-line {
-            display: block;
+        .philosophy blockquote {
             font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
             font-weight: 400;
+            line-height: 1.35;
             color: var(--cream);
-            letter-spacing: -0.01em;
-            line-height: 1.4;
-            margin-bottom: 1.2rem;
-        }
-
-        .phil-line:last-child { margin-bottom: 0; }
-
-        .phil-line.line-big {
-            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-        }
-
-        .phil-line.line-med {
-            font-size: clamp(1.5rem, 3.5vw, 2.4rem);
-        }
-
-        .phil-line.line-turn {
-            font-size: clamp(2rem, 5vw, 3.6rem);
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .phil-line.line-punch {
-            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-        }
-
-        .phil-line.line-punch em {
-            font-style: italic;
-        }
-
-        /* Individual word spans */
-        .phil-line .pw {
-            display: inline-block;
-            opacity: 0.15;
-            transition: opacity 0.4s ease;
-        }
-
-        .phil-line .pw.revealed {
-            opacity: 1;
-        }
-
-        /* Highlighted key words — white + underline wipe */
-        .phil-line .pw.highlight {
+            max-width: 1000px;
+            margin: 0 auto;
             position: relative;
+            letter-spacing: -0.01em;
         }
 
-        .phil-line .pw.highlight.revealed {
-            color: #fff;
-        }
-
-        .phil-line .pw.highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: -3px;
-            right: -3px;
-            height: 35%;
-            background: rgba(255, 255, 255, 0.18);
-            border-radius: 3px;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-        }
-
-        .phil-line .pw.highlight.revealed::after {
-            transform: scaleX(1);
+        .philosophy blockquote em {
+            font-style: italic;
+            opacity: 0.9;
         }
 
         /* ========== PRODUCT SHOWCASE ========== */
@@ -1502,11 +1431,7 @@
             }
 
             .philosophy {
-                padding: 0 1.5rem;
-            }
-
-            .phil-content {
-                padding: 0 0.5rem;
+                padding: 3.5rem 1.5rem;
             }
 
             .product-showcase {
@@ -1667,19 +1592,11 @@
     </section>
 
     <!-- PHILOSOPHY -->
-    <div class="philosophy-wrap">
-        <section class="philosophy" id="philosophy">
-            <canvas class="dot-canvas" data-dots="14" data-color="cream"></canvas>
-            <div class="phil-content">
-                <span class="phil-line line-big" data-highlight="relationships,health,longevity">your relationships predict your health and longevity as much as exercise, diet, and sleep.</span>
-                <span class="phil-line line-med">we have apps for all of those.</span>
-                <span class="phil-line line-turn" data-highlight="social,health">but for your social health — the thing that matters just as much?</span>
-                <span class="phil-line line-punch" data-highlight="tracking.,tools.,visibility">
-                    <em>no tracking. no tools.</em> no visibility into whether things are getting better or quietly getting worse.
-                </span>
-            </div>
-        </section>
-    </div>
+    <section class="philosophy">
+        <blockquote class="reveal">
+            your relationships predict your health and longevity as much as exercise, diet, and sleep. we have apps for all of those. but for the one that matters just as much? <em>no tracking. no tools.</em> no visibility into whether things are getting better or quietly getting worse.
+        </blockquote>
+    </section>
 
     <!-- PRODUCT SHOWCASE -->
     <section class="product-showcase">
@@ -2081,83 +1998,6 @@
                 }
             });
         });
-
-        // --- Philosophy: word-by-word scroll reveal + shifting background ---
-        (function() {
-            const wrap = document.querySelector('.philosophy-wrap');
-            if (!wrap) return;
-            const section = wrap.querySelector('.philosophy');
-
-            // Background color stops: warm coral → deep charcoal-coral
-            // Start:  D94F2B, E8673D, F0A672 (current gradient)
-            // End:    1A1A1A (charcoal) center, with deep warm edges
-            const colorStops = [
-                { r1: [217,79,43],  r2: [232,103,61], r3: [240,166,114] },  // 0% — warm coral
-                { r1: [180,60,50],  r2: [160,70,60],  r3: [200,120,100] },  // 50% — muted
-                { r1: [45,30,30],   r2: [35,25,25],   r3: [60,40,40] },     // 100% — near black
-            ];
-
-            function lerpColor(a, b, t) {
-                return [
-                    Math.round(a[0] + (b[0] - a[0]) * t),
-                    Math.round(a[1] + (b[1] - a[1]) * t),
-                    Math.round(a[2] + (b[2] - a[2]) * t),
-                ];
-            }
-
-            function getGradient(p) {
-                let idx, t;
-                if (p < 0.5) { idx = 0; t = p / 0.5; }
-                else { idx = 1; t = (p - 0.5) / 0.5; }
-                const from = colorStops[idx], to = colorStops[idx + 1];
-                const c1 = lerpColor(from.r1, to.r1, t);
-                const c2 = lerpColor(from.r2, to.r2, t);
-                const c3 = lerpColor(from.r3, to.r3, t);
-                return 'linear-gradient(135deg, rgb(' + c1 + '), rgb(' + c2 + '), rgb(' + c3 + '))';
-            }
-
-            const lines = wrap.querySelectorAll('.phil-line');
-            const allWords = [];
-
-            lines.forEach(line => {
-                const highlights = (line.dataset.highlight || '').split(',').map(s => s.trim().toLowerCase().replace(/[^a-z]/g, ''));
-                const temp = document.createElement('div');
-                temp.innerHTML = line.innerHTML;
-                const text = temp.textContent;
-                const words = text.split(/\s+/).filter(w => w.length > 0);
-
-                let html = '';
-                words.forEach(word => {
-                    const lower = word.toLowerCase().replace(/[^a-z]/g, '');
-                    let isHL = false;
-                    for (const phrase of highlights) {
-                        if (phrase === lower && lower.length > 2) { isHL = true; break; }
-                    }
-                    html += '<span class="pw' + (isHL ? ' highlight' : '') + '">' + word + '</span> ';
-                });
-
-                line.innerHTML = html;
-                line.querySelectorAll('.pw').forEach(pw => allWords.push(pw));
-            });
-
-            const total = allWords.length;
-
-            function onScroll() {
-                const rect = wrap.getBoundingClientRect();
-                const scrollH = wrap.offsetHeight - window.innerHeight;
-                const p = Math.max(0, Math.min(1, -rect.top / scrollH));
-                const revealUpTo = Math.floor(Math.max(0, Math.min(1, (p - 0.05) / 0.85)) * total);
-
-                for (let i = 0; i < total; i++) {
-                    allWords[i].classList.toggle('revealed', i <= revealUpTo);
-                }
-
-                section.style.background = getGradient(p);
-            }
-
-            window.addEventListener('scroll', onScroll, { passive: true });
-            onScroll();
-        })();
 
         // --- 4. Stat counter animation (resets on scroll away) ---
         document.querySelectorAll('.stat-num').forEach(el => {
