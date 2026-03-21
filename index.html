@@ -285,27 +285,50 @@
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
         }
 
-        /* Radiating pulse ring */
-        .hero-score-ring::before {
+        /* Plus badge */
+        .score-plus {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .score-plus span {
+            display: none;
+        }
+
+        /* CSS-drawn plus */
+        .score-plus::before,
+        .score-plus::after {
             content: '';
             position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            opacity: 0;
-            animation: ringPulse 2.5s ease-out infinite;
+            background: var(--cream-light);
+            border-radius: 1px;
         }
 
-        .hero-score-ring:nth-child(2)::before { animation-delay: 0.8s; }
-        .hero-score-ring:nth-child(3)::before { animation-delay: 1.6s; }
+        .score-plus::before {
+            width: 10px;
+            height: 2px;
+        }
+
+        .score-plus::after {
+            width: 2px;
+            height: 10px;
+        }
 
         .hero-score-ring:hover {
-            transform: scale(1.12);
+            transform: scale(1.08);
         }
 
-        .hero-score-ring.active::before {
-            animation: none;
-            opacity: 0;
+        .hero-score-ring.active .score-plus {
+            transform: rotate(45deg);
         }
 
         .hero-score-ring.connect {
@@ -1242,38 +1265,7 @@
             transform: translateX(100%);
         }
 
-        /* ========== 3. Mode cards tilt toward each other ========== */
-        .mode-card {
-            transition: all 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .js-reveal .mode-card.single {
-            transform: rotate(1deg) translateX(-8px);
-            opacity: 0;
-        }
-
-        .js-reveal .mode-card.multi {
-            transform: rotate(-1deg) translateX(8px);
-            opacity: 0;
-        }
-
-        .js-reveal .mode-card.single.visible {
-            transform: rotate(0) translateX(0);
-            opacity: 1;
-        }
-
-        .js-reveal .mode-card.multi.visible {
-            transform: rotate(0) translateX(0);
-            opacity: 1;
-        }
-
-        .mode-card.single:hover {
-            transform: rotate(0.5deg) translateY(-4px) !important;
-        }
-
-        .mode-card.multi:hover {
-            transform: rotate(-0.5deg) translateY(-4px) !important;
-        }
+        /* ========== 3. Mode cards ========== */
 
         /* ========== 4. Stat counter ========== */
         .stat-num {
@@ -1569,16 +1561,19 @@
             <div class="hero-score-ring connect">
                 <span class="score-num">82</span>
                 <span class="score-label">connect</span>
+                <div class="score-plus"><span>+</span></div>
                 <span class="score-sub">are you actually showing up — calls, hangouts, real presence? dearli tracks the interactions that matter, not just the ones that are easy.</span>
             </div>
             <div class="hero-score-ring balance">
                 <span class="score-num">65</span>
                 <span class="score-label">balance</span>
+                <div class="score-plus"><span>+</span></div>
                 <span class="score-sub">is your time split the way you want across friends, family & circles? you set the goals — dearli shows you where the gaps are.</span>
             </div>
             <div class="hero-score-ring momentum">
                 <span class="score-num">78</span>
                 <span class="score-label">momentum</span>
+                <div class="score-plus"><span>+</span></div>
                 <span class="score-sub">are your relationships holding steady or quietly drifting? momentum tracks the trend — so you can catch the slow fade before it becomes a gap.</span>
             </div>
         </div>
@@ -1834,6 +1829,8 @@
             </div>
             <div class="footer-links">
                 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;">&#104;&#101;&#108;&#108;&#111;&#64;&#100;&#101;&#97;&#114;&#108;&#105;&#46;&#115;&#111;</a>
+                <a href="/privacy.html">privacy</a>
+                <a href="/terms.html">terms</a>
             </div>
             <div class="footer-copy">&copy; 2026 shaman ventures llc. all rights reserved.</div>
         </div>
