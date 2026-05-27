@@ -1852,7 +1852,8 @@
             <h2 class="reveal">more of the moments that matter.</h2>
             <p class="reveal">get early access to the app and follow our journey on substack.</p>
             <div class="reveal" id="waitlist-form">
-                <form class="substack-form" id="substack-form">
+                <iframe name="substack-hidden" id="substack-hidden" style="display:none;"></iframe>
+                <form class="substack-form" id="substack-form" action="https://dearliapp.substack.com/api/v1/free?nojs=true" method="post" target="substack-hidden">
                     <input type="email" name="email" placeholder="your email" required />
                     <button type="submit">join via substack</button>
                 </form>
@@ -2086,26 +2087,15 @@
         })();
 
         // --- Substack form submission ---
-        document.getElementById('substack-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.getElementById('substack-form').addEventListener('submit', function() {
             const form = this;
-            const email = form.querySelector('input[name="email"]').value;
             const btn = form.querySelector('button');
             btn.textContent = 'submitting...';
             btn.disabled = true;
-
-            fetch('https://dearliapp.substack.com/api/v1/free', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, first_url: window.location.href, first_referrer: document.referrer }),
-                mode: 'no-cors'
-            }).then(function() {
+            setTimeout(function() {
                 form.style.display = 'none';
                 document.getElementById('substack-confirm').style.display = 'block';
-            }).catch(function() {
-                form.style.display = 'none';
-                document.getElementById('substack-confirm').style.display = 'block';
-            });
+            }, 600);
         });
     </script>
 </body>
