@@ -1186,6 +1186,14 @@
             transform: translateY(-1px);
         }
 
+        .substack-confirm {
+            display: none;
+            color: var(--coral);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
         .waitlist-note {
             font-size: 0.88rem;
             color: var(--text-warm);
@@ -1844,10 +1852,11 @@
             <h2 class="reveal">more of the moments that matter.</h2>
             <p class="reveal">get early access to the app and follow our journey on substack.</p>
             <div class="reveal" id="waitlist-form">
-                <form action="https://dearliapp.substack.com/api/v1/free?nojs=true" method="post" target="_blank" class="substack-form">
+                <form class="substack-form" id="substack-form">
                     <input type="email" name="email" placeholder="your email" required />
                     <button type="submit">join via substack</button>
                 </form>
+                <p class="substack-confirm" id="substack-confirm">you're in! check your email to confirm.</p>
             </div>
             <p class="waitlist-note reveal">no spam. unsubscribe anytime.</p>
         </div>
@@ -2075,6 +2084,29 @@
                 }
             }, { threshold: 0.3 }).observe(pulse.parentElement);
         })();
+
+        // --- Substack form submission ---
+        document.getElementById('substack-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            const email = form.querySelector('input[name="email"]').value;
+            const btn = form.querySelector('button');
+            btn.textContent = 'submitting...';
+            btn.disabled = true;
+
+            fetch('https://dearliapp.substack.com/api/v1/free', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, first_url: window.location.href, first_referrer: document.referrer }),
+                mode: 'no-cors'
+            }).then(function() {
+                form.style.display = 'none';
+                document.getElementById('substack-confirm').style.display = 'block';
+            }).catch(function() {
+                form.style.display = 'none';
+                document.getElementById('substack-confirm').style.display = 'block';
+            });
+        });
     </script>
 </body>
 </html>
