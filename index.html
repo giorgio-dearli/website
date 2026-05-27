@@ -1137,13 +1137,53 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            overflow: hidden;
         }
 
-        #waitlist-form iframe {
+        .substack-form {
+            display: flex;
+            gap: 0.5rem;
             width: 100%;
-            max-width: 480px;
-            margin-top: -20px;
+            max-width: 420px;
+        }
+
+        .substack-form input[type="email"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            background: #fff;
+            color: var(--espresso);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .substack-form input[type="email"]::placeholder {
+            color: rgba(0, 0, 0, 0.35);
+        }
+
+        .substack-form input[type="email"]:focus {
+            border-color: var(--coral);
+        }
+
+        .substack-form button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--coral);
+            color: var(--cream-light);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .substack-form button:hover {
+            background: #d4552a;
+            transform: translateY(-1px);
         }
 
         .waitlist-note {
@@ -1523,15 +1563,12 @@
             #waitlist-form {
                 width: 100%;
                 max-width: 100%;
-                overflow: visible;
                 padding: 0;
             }
 
-            #waitlist-form iframe,
-            #waitlist-form .beehiiv-embed {
-                max-width: 100% !important;
-                width: 100% !important;
-                min-width: 0 !important;
+            .substack-form {
+                flex-direction: column;
+                max-width: 100%;
             }
         }
 
@@ -1805,17 +1842,12 @@
             <div class="waitlist-pulse"></div>
             <div class="section-label reveal">launching 2026</div>
             <h2 class="reveal">more of the moments that matter.</h2>
-            <p class="reveal">join the waitlist for early access. we'll share occasional updates — nothing spammy, just things worth reading.</p>
+            <p class="reveal">get early access to the app and follow our journey on substack.</p>
             <div class="reveal" id="waitlist-form">
-                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-                <iframe
-                    src="https://subscribe-forms.beehiiv.com/ffd5ac52-d954-46c9-b4a5-c46e9b2029fb"
-                    class="beehiiv-embed"
-                    data-test-id="beehiiv-embed"
-                    frameborder="0"
-                    scrolling="no"
-                    style="width: 100%; max-width: 480px; height: 155px; border-radius: 0px; background-color: transparent;"
-                ></iframe>
+                <form action="https://dearliapp.substack.com/api/v1/free?nojs=true" method="post" target="_blank" class="substack-form">
+                    <input type="email" name="email" placeholder="your email" required />
+                    <button type="submit">join via substack</button>
+                </form>
             </div>
             <p class="waitlist-note reveal">no spam. unsubscribe anytime.</p>
         </div>
